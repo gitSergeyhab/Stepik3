@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
@@ -7,11 +8,12 @@ from job.data import jobs, skillist, companies, cities, specialties, level
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=32, verbose_name="Компания")
+    name = models.CharField(max_length=32, verbose_name="Компания", unique=True)
     location = models.CharField(max_length=32, verbose_name="Город", blank=True)
     logo = models.ImageField(verbose_name="Логотип", upload_to="logs/%Y/%m/%d/", blank=True)
     description = models.TextField(verbose_name="Информация о компании", blank=True)
     employee_count = models.IntegerField(verbose_name="Количество сотрудников", null=True, blank=True)
+    owner = models.ForeignKey(User, related_name="company", on_delete=models.CASCADE)
 
     def get_absolute_url(self):
         return reverse('company', kwargs={'pk': self.pk})
@@ -25,8 +27,8 @@ class Company(models.Model):
 
 
 class Specialty(models.Model):
-    code = models.CharField(max_length=32, verbose_name="Код")
-    slug = models.SlugField()
+    code = models.CharField(max_length=32, verbose_name="Код", unique=True)
+    slug = models.SlugField(unique=True)
     title = models.CharField(max_length=32, verbose_name="Специализация")
     picture = models.ImageField(verbose_name="Картинка", upload_to="pics/%Y/%m/%d/", blank=True)
 
@@ -70,21 +72,56 @@ def skill_maker(x):
     return ' • '.join(skillist[:choice(xx)])
 
 
+def usermamerX(x):
+    return 'username' + str(x), 'first_name' + str(x), 'last_name' + str(x)
+
+
 def random_database():
+    if User.objects.count() < 40:
+        for i in range(40):
+            q, w, e = usermamerX(i)
+            User.objects.create(username=q, first_name=w, last_name=e)
+
     for com in companies:
         if Company.objects.count() < 8:
-            Company.objects.create(name=com['title'], location=choice(cities),
-                                   employee_count=choice(list(range(1, 500))))
+            Company.objects.create(
+                name=com['title'], location=choice(cities),
+                employee_count=choice(list(range(1, 500))),
+                owner=User.objects.get(pk=User.objects.count())
+            )
     for sp in specialties:
         if Specialty.objects.count() < 8:
             Specialty.objects.create(code=sp['code'], slug=sp['code'], title=sp['title'])
     for j in jobs:
         if Vacancy.objects.count() < 40:
-            Vacancy.objects.create(title=j['title'],
-                                   specialty=Specialty.objects.filter(code=j['cat'])[0],
-                                   company=Company.objects.filter(name=j['company'])[0],
-                                   skills=skill_maker(6), level=choice(level), description=j['desc'],
-                                   salary_min=j['salary_from'], salary_max=j['salary_to'])
+            Vacancy.objects.create(
+                title=j['title'],
+                specialty=Specialty.objects.filter(code=j['cat'])[0],
+                company=Company.objects.filter(name=j['company'])[0],
+                skills=skill_maker(6), level=choice(level), description=j['desc'],
+                salary_min=j['salary_from'], salary_max=j['salary_to']
+            )
+
+##                                                  --- week 4 ---
+
+
+class Application(models.Model):
+    written_username = models.CharField(max_length=32, verbose_name="Имя")
+    written_phone = models.CharField(max_length=32, verbose_name="Телефон")
+    written_cover_letter = models.TextField(verbose_name="Сопроводительное письмо")
+    vacancy = models.ForeignKey(Vacancy, related_name="applications", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="applications", on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse('application', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return self.written_username
+
+    class Meta:
+        ordering = ['written_username']
+
+
 
 # раскомментировать при создании базы данных:
-# random_database()
+random_database()
