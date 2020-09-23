@@ -72,14 +72,14 @@ def skill_maker(x):
     return ' • '.join(skillist[:choice(xx)])
 
 
-def usermamerX(x):
+def usermakerX(x):
     return 'username' + str(x), 'first_name' + str(x), 'last_name' + str(x)
 
 
 def random_database():
     if User.objects.count() < 40:
         for i in range(40):
-            q, w, e = usermamerX(i)
+            q, w, e = usermakerX(i)
             User.objects.create(username=q, first_name=w, last_name=e)
 
     for com in companies:
@@ -124,4 +124,4 @@ class Application(models.Model):
 
 
 # раскомментировать при создании базы данных:
-random_database()
+# random_database()

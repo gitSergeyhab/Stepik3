@@ -1,12 +1,18 @@
 <form action="{{ application.get_absolute_url }}" method="post" class="card mt-4 mb-3">
   <div class="card-body mx-3">
       <p class="h5 mt-3 font-weight-normal">Отозваться на вакансию</p>
-      {% csrf_token %}
+    {% load crispy_forms_tags %}
+    {% crispy form "bootstrap4" %}
 
-      {{ form.as_p }}
+ {% comment %}   {% crispy form form.helper %} {% endcomment %}
 
-    {{ form.non_field.errors }}
-      {% comment %}
+    {% comment %}
+<!--    {% csrf_token %}-->
+<!--    {{ form.as_p }}-->
+    {% endcomment %}
+
+ {% comment %}
+<!--    {{ form.non_field.errors }}-->
 <!--    <div class="form-group">-->
 <!--      <label class="mb-1 mt-2" for="{{ form.written_username.id_for_label }}">Вас зовут</label>-->
 <!--        <p>{{ form.written_username }}</p>-->
@@ -22,9 +28,10 @@
 <!--        <p>{{ form.written_cover_letter }}</p>-->
 <!--        {{ form.written_cover_letter.errors }}-->
 <!--    </div>-->
+<!--    <input type="submit" class="btn btn-primary mt-4 mb-2" value="Записаться на пробный урок">-->
      {% endcomment %}
 
 
-    <input type="submit" class="btn btn-primary mt-4 mb-2" value="Записаться на пробный урок">
+
   </div>
 </form>
