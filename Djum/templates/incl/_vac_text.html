@@ -1,15 +1,10 @@
-
-{{ application }}
-
-{{ application.get_absolute_url }}
-<a href="{{ application.vacancy.company.get_absolute_url }}"><img src="../../static/logs/logo{{ vacancy.company.pk }}.png" width="130" height="80" alt=""></a>
-<a href="{{ vacancy.company.get_absolute_url }}"><img src="../../static/logs/logo{{ vacancy.company.pk }}.png" width="130" height="80" alt=""></a>
+<a href="{{ vacancy.company.get_absolute_url }}"><img src="../../../static/logs/logo{{ vacancy.company.pk }}.png" width="130" height="80" alt=""></a>
 <div class="d-flex align-items-baseline align-content-baseline">
   <h1 class="h2 mt-4 font-weight-bold" >{{ vacancy }}</h1>
   <p class="m-0 pl-3">{{ vacancy.salary_min }} – {{ vacancy.salary_max }} Р</p>
 </div>
-<p class="mt-2"><a class="text-secondary" href="{{ vacancy.specialty.get_absolute_url }}">{{ vacancy.specialty }}</a> • {{ vacancy.level }} • {{ vacancy.skills }}</p>
-<p class="text-muted mb-4">{{ vacancy.company }} ({{ vacancy.company.employee_count }} человек), {{ vacancy.company.location }} или удаленно</p>
+<p class="mt-2"><a class="text-secondary" href="{{ vacancy.specialty.get_absolute_url }}"><b>{{ vacancy.specialty }}</b></a> • {{ vacancy.level }} • {{ vacancy.skills }}</p>
+<p class="text-muted mb-4"><b>{{ vacancy.company|upper }}</b> ({{ vacancy.company.employee_count }} человек), {{ vacancy.company.location }} или удаленно</p>
 <div style="line-height: 1.8;">
   <p>{% lorem 30 w random %}</p>
 

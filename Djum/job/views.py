@@ -6,7 +6,7 @@ from django.contrib.auth.views import LoginView
 from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Specialty, Company, Vacancy
+from .models import Specialty, Company, Vacancy, Application
 from .models import skillist
 from random import shuffle
 from .forms import ApplicationForm
@@ -98,6 +98,8 @@ class CreateApplication(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['vacancy'] = Vacancy.objects.get(pk=self.kwargs['pk'])
+        context['application'] = Application.objects.all()
+
         return context
 
 
@@ -113,3 +115,4 @@ class MyLoginView(LoginView):
     redirect_authenticated_user = True
     template_name = 'login.html'
     extra_context = {'title': title, }
+

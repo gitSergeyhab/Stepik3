@@ -102,6 +102,7 @@ def random_database():
                 salary_min=j['salary_from'], salary_max=j['salary_to']
             )
 
+
 ##                                                  --- week 4 ---
 
 
@@ -115,14 +116,11 @@ class Application(models.Model):
     def get_absolute_url(self):
         return reverse('application', kwargs={'pk': self.pk})
 
-
     def __str__(self):
         return self.written_username
 
     class Meta:
         ordering = ['written_username']
-
-
 
 # раскомментировать при создании базы данных:
 # random_database()

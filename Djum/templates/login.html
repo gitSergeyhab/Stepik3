@@ -5,11 +5,17 @@
 {% endblock %}
 
 
-{% block card1 %}
+{% block cards1 %}
 
-<form method="post" action="login">{% csrf_token %}
-  <table>{{ form.as_table }}</table>
-  <button type="submit">Login</button>
-</form>
+
+<div class="container h-100 mt-5 pt-5">
+  <div class="row h-100 justify-content-center align-items-center">
+    <form method="post" action="login">{% csrf_token %}
+        <table>{{ form.as_table }}</table>
+        <button type="submit">Login</button>
+    </form>
+  </div>
+</div>
+
 
 {% endblock %}

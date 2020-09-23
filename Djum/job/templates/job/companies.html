@@ -23,7 +23,7 @@
                   <a href="{{ com.get_absolute_url }}"><img src="../../static/logs/logo{{ com.pk }}.png" width="130" height="80" alt=""></a>
                 </div>
                 <div class="col-12 col-md-8 col-lg-9">
-                  <a class="nav-link" href="{{ com.get_absolute_url }}"><h2 class="h2 pb-2">{{ com.name }}</h2></a>
+                  <a class="text-secondary" href="{{ com.get_absolute_url }}"><h2 class="h2 pb-2">{{ com.name|upper }}</h2></a>
                   <p class="mb-2 bg-info">Город: {{ com.location }} | Штат: {{ com.employee_count }} человек</p>
 <!--                  <p>{{ com.description|truncatechars:'44' }}</p>-->
                   <p><b>О компании:</b> {% lorem 13 w random %}...</p>

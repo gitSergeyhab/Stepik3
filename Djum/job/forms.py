@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+
 from .models import Application
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -33,3 +35,4 @@ class ApplicationForm(forms.ModelForm):
         #     'vacancy': forms.Select(attrs={'class': 'form-control'}),
         #     'user': forms.Select(attrs={'class': 'mb-3 form-control'}),
         # }
+
