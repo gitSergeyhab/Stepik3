@@ -7,15 +7,16 @@
 
           {% comment %}
 
-          !!!
-          <a href="{{ vac.get_absolute_url }}"><h2 class="h2 pb-2">{{ vac.title }}</h2></a>
-          Почему-то не работает!!! - выдает ошибку:
-          Reverse for 'vacancies' with keyword arguments '{'pk': 1}' not found. 1 pattern(s) tried: ['vacancies/$']
-          !!!
-
+<!--          !!!-->
+<!--          <a href="{{ vac.get_absolute_url }}"><h2 class="h2 pb-2">{{ vac.title }}</h2></a>-->
+<!--          Почему-то не работает!!! - выдает ошибку:-->
+<!--          Reverse for 'vacancies' with keyword arguments '{'pk': 1}' not found. 1 pattern(s) tried: ['vacancies/$']-->
+<!--          !!!-->
+<!--          -->
            {% endcomment %}
 
-          <a href="{% url 'vacancy' vac.pk %}"><h2 class="h2 pb-2 text-secondary">{{ vac.title }}</h2></a>
+
+          <a href="{% url 'application' vac.pk  %}"><h2 class="h2 pb-2 text-secondary">{{ vac.title }}</h2></a>
           <p class="mb-2"><a class="text-secondary" href="{{ vac.specialty.get_absolute_url }}">{{ vac.specialty.title }}</a> • {{ vac.level }} • {{ vac.skills }}</p>
           <p>От {{ vac.salary_min }} до {{ vac.salary_max }} руб.</p>
           <p class="text-muted pt-1">{{ vac.published_at }}</p>

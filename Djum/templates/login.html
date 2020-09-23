@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ block.super }} | Вход
+{% endblock %}
+
+
+{% block card1 %}
+
+<form method="post" action="login">{% csrf_token %}
+  <table>{{ form.as_table }}</table>
+  <button type="submit">Login</button>
+</form>
+
+{% endblock %}

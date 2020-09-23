@@ -2,7 +2,10 @@
 # from django.views import View
 
 # Create your views here.
+from django.contrib.auth.views import LoginView
 from django.views.generic import ListView, DetailView, CreateView
+from django.contrib.auth.forms import UserCreationForm
+
 from .models import Specialty, Company, Vacancy
 from .models import skillist
 from random import shuffle
@@ -96,3 +99,17 @@ class CreateApplication(CreateView):
         context = super().get_context_data(**kwargs)
         context['vacancy'] = Vacancy.objects.get(pk=self.kwargs['pk'])
         return context
+
+
+# ------------------- registrations -------------------
+class MySignupView(CreateView):
+    form_class = UserCreationForm
+    success_url = 'login'
+    template_name = 'signup.html'
+    extra_context = {'title': title, }
+
+
+class MyLoginView(LoginView):
+    redirect_authenticated_user = True
+    template_name = 'login.html'
+    extra_context = {'title': title, }
