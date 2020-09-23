@@ -106,8 +106,8 @@ def random_database():
 
 
 class Application(models.Model):
-    written_username = models.CharField(max_length=32, verbose_name="Имя")
-    written_phone = models.CharField(max_length=32, verbose_name="Телефон")
+    written_username = models.CharField(max_length=32, verbose_name="Вас зовут")
+    written_phone = models.CharField(max_length=32, verbose_name="Ваш телефон")
     written_cover_letter = models.TextField(verbose_name="Сопроводительное письмо")
     vacancy = models.ForeignKey(Vacancy, related_name="applications", on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name="applications", on_delete=models.CASCADE)

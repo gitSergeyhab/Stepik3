@@ -2,10 +2,11 @@
 # from django.views import View
 
 # Create your views here.
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from .models import Specialty, Company, Vacancy
 from .models import skillist
 from random import shuffle
+from .forms import ApplicationForm
 
 title = 'Джуманджи'
 shuffle(skillist)
@@ -82,3 +83,16 @@ class Companies(ListView):
     template_name = 'job/companies.html'
     context_object_name = 'companies'
     extra_context = {'title': title, }
+
+
+# ----------------------- 4 week --------------------
+
+class CreateApplication(CreateView):
+    form_class = ApplicationForm
+    template_name = 'job/vacancy.html'
+    extra_context = {'title': title, }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['vacancy'] = Vacancy.objects.get(pk=self.kwargs['pk'])
+        return context
