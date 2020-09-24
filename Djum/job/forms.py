@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.models import User
 
 from .models import Application
 from crispy_forms.helper import FormHelper
@@ -13,6 +14,7 @@ from crispy_forms.layout import Submit
     user = models.ForeignKey(User, related_name="applications", on_delete=models.CASCADE)
 '''
 
+# --------------- форма добавления отклтка на вакансию -----------------------
 
 class ApplicationForm(forms.ModelForm):
 
@@ -35,4 +37,22 @@ class ApplicationForm(forms.ModelForm):
         #     'vacancy': forms.Select(attrs={'class': 'form-control'}),
         #     'user': forms.Select(attrs={'class': 'mb-3 form-control'}),
         # }
+
+
+# --------------- форма регистрации -----------------------
+
+class UserRegForm(UserCreationForm):
+    email = forms.EmailField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Зарегистрироваться'))
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password1']
+        # fields = ['username', 'email', 'password1', 'password1']
 

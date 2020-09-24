@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Specialty, Company, Vacancy, Application
 from .models import skillist
 from random import shuffle
-from .forms import ApplicationForm
+from .forms import ApplicationForm, UserRegForm
 
 title = 'Джуманджи'
 shuffle(skillist)
@@ -99,7 +99,8 @@ class CreateApplication(CreateView):
 
 # ------------------- registrations -------------------
 class MySignupView(CreateView):
-    form_class = UserCreationForm
+    # form_class = UserCreationForm
+    form_class = UserRegForm
     success_url = 'login'
     template_name = 'signup.html'
     extra_context = {'title': title, }
