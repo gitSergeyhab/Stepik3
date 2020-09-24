@@ -49,13 +49,7 @@ class ListVacancies(ListView):
     context_object_name = 'vacancies'
     template_name = 'job/vacancies.html'
     extra_context = {'title': title}
-
-
-# # – Карточка компании  /companies/345
-# class CardCompany(DetailView):
-#     model = Company
-#     context_object_name = 'company'
-#     template_name = 'job/company.html'
+    # paginate_by = 8
 
 
 # – Одна вакансия /vacancies/22

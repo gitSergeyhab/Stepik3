@@ -6,7 +6,7 @@
 
 
 {% block cards1 %}
-
+<h1 class="h1 text-center mx-auto mt-4 py-5"><strong>Регистрация</strong></h1>
 <form method="post" action="signup">{% csrf_token %}
   <table>{{ form.as_table }}</table>
   <button type="submit">Send</button>
