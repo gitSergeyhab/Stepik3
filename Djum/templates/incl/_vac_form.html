@@ -2,6 +2,7 @@
   <div class="card-body mx-3">
       <p class="h5 mt-3 font-weight-normal">Отозваться на вакансию</p>
     {% load crispy_forms_tags %}
+      {% csrf_token %}
     {% crispy form "bootstrap4" %}
 
  {% comment %}   {% crispy form form.helper %} {% endcomment %}

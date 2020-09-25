@@ -78,26 +78,28 @@ def usermakerX(x):
 
 
 def random_database():
-    if User.objects.count() < 40:
-        for i in range(40):
+    # число юзеров, компаний, специальностей, вакансий = ....
+    nun_users, num_coms, num_sps, num_vacs = 40, 8, 8, 40
+
+    if User.objects.count() < nun_users:
+        for i in range(nun_users):
             q, w, e = usermakerX(i)
-            # User.objects.create(username=q, first_name=w, last_name=e)
             User.objects.create_user(username=q, email=w, password=e)
 
     for com in companies:
-        if Company.objects.count() < 8:
+        if Company.objects.count() < num_coms:
             Company.objects.create(
                 name=com['title'], location=choice(cities),
                 employee_count=choice(list(range(1, 500))),
-                owner=User.objects.get(username=str('username' + str(choice(list(range(40))))))
+                owner=User.objects.get(username=str('username' + str(choice(list(range(nun_users))))))
             )
 
     for sp in specialties:
-        if Specialty.objects.count() < 8:
+        if Specialty.objects.count() < num_sps:
             Specialty.objects.create(code=sp['code'], slug=sp['code'], title=sp['title'])
 
     for j in jobs:
-        if Vacancy.objects.count() < 40:
+        if Vacancy.objects.count() < num_vacs:
             Vacancy.objects.create(
                 title=j['title'],
                 specialty=Specialty.objects.filter(code=j['cat'])[0],
@@ -127,4 +129,4 @@ class Application(models.Model):
         ordering = ['written_username']
 
 # раскомментировать при создании базы данных:
-# random_database()
+random_database()

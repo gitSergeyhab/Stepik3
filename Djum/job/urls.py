@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib.auth.views import LogoutView
 from django.urls import path
 from job.views import MainView, ListVacancies, CardCompany, ListVacSpecialties, Companies, OneVacancy, \
-    CreateApplication, MySignupView, my_login
+    CreateApplication, MySignupView, my_login, EditCompany, MyVacancies
 
 urlpatterns = [
     path('', MainView.as_view(), name='main'),
@@ -26,9 +26,11 @@ urlpatterns = [
     path('vacancies/cat/<str:slug>', ListVacSpecialties.as_view(), name='specialties'),
     path('vacancies/<int:pk>', OneVacancy.as_view(), name='vacancy'),
     path('vacancies/<int:pk>/send/', CreateApplication.as_view(), name='application'),
-    # path('mycompany/', Mycompany.as_view(),  name='mycompany'),
-]
 
+    path('mycompany/', EditCompany.as_view(), name='mycompany'),
+    path('mycompany/vacancies/', MyVacancies.as_view(), name='myvacancies'),
+
+]
 
 urlpatterns += [
     path('login', my_login, name='login'),
@@ -36,5 +38,3 @@ urlpatterns += [
     path('logout', LogoutView.as_view(), name='logout'),
     path('signup', MySignupView.as_view(), name='signup'),
 ]
-
-

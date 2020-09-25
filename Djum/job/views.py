@@ -11,7 +11,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Specialty, Company, Vacancy, Application
 from .models import skillist
 from random import shuffle
-from .forms import ApplicationForm, UserRegForm, UserAutForm
+from .forms import ApplicationForm, UserRegForm, UserAutForm, EditComForm
 
 title = 'Джуманджи'
 shuffle(skillist)
@@ -127,4 +127,29 @@ def my_login(request):
             return redirect('/')
     else:
         form = UserAutForm()
-    return render(request, 'login.html', {'form': form,'title': title, })
+    return render(request, 'login.html', {'form': form, 'title': title, })
+
+
+# ----------------------- user profil ----------------------------
+
+'''
+– Моя компания /mycompany
+– Мои вакансии /mycompany/vacancies
+– Одна моя вакансия  /mycompany/vacancies/<vacancy_id>
+'''
+
+
+class EditCompany(CreateView):
+    form_class = EditComForm
+    template_name = 'job/company-edit.html'
+    extra_context = {'title': title, }
+
+
+class MyVacancies(ListView):
+    model = Vacancy
+    template_name = 'job/vacancy-list.html'
+    context_object_name = 'vacancies'
+    extra_context = {'title': title}
+
+    def get_queryset(self):
+        return Vacancy.objects.filter(company__owner__pk=self.request.user.pk)
