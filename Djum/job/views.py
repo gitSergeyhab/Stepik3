@@ -2,14 +2,16 @@
 # from django.views import View
 
 # Create your views here.
+from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import Specialty, Company, Vacancy, Application
 from .models import skillist
 from random import shuffle
-from .forms import ApplicationForm, UserRegForm
+from .forms import ApplicationForm, UserRegForm, UserAutForm
 
 title = 'Джуманджи'
 shuffle(skillist)
@@ -106,8 +108,23 @@ class MySignupView(CreateView):
     extra_context = {'title': title, }
 
 
-class MyLoginView(LoginView):
-    redirect_authenticated_user = True
-    template_name = 'login.html'
-    extra_context = {'title': title, }
+# ------------------- registrations -------------------
 
+# class MyLoginView(LoginView):
+#     redirect_authenticated_user = True
+#     template_name = 'login.html'
+#     extra_context = {'title': title, }
+
+# !!! через класс красиво не получилось, а в функции с трудом понимаю, что вообще происходит
+def my_login(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+    if request.method == 'POST':
+        form = UserAutForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('/')
+    else:
+        form = UserAutForm()
+    return render(request, 'login.html', {'form': form,'title': title, })

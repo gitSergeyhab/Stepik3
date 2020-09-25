@@ -42,7 +42,6 @@ class ApplicationForm(forms.ModelForm):
 # --------------- форма регистрации -----------------------
 
 class UserRegForm(UserCreationForm):
-    email = forms.EmailField()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -53,6 +52,12 @@ class UserRegForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password1']
-        # fields = ['username', 'email', 'password1', 'password1']
+        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+        # fields = ['username', 'email', 'password1', 'password2']
 
+
+# --------------- форма аутентификации -----------------------
+
+class UserAutForm(AuthenticationForm):
+    username = forms.CharField(label='введите имя пользователя', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(label='введите пароль', widget=forms.PasswordInput(attrs={'class': 'form-control'}))

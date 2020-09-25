@@ -73,25 +73,29 @@ def skill_maker(x):
 
 
 def usermakerX(x):
-    return 'username' + str(x), 'first_name' + str(x), 'last_name' + str(x)
+    # return 'username' + str(x), 'first_name' + str(x), 'last_name' + str(x)
+    return 'username' + str(x), 'email' + str(x) + '@mail.fake', 'pass' + str(x) + 'word'
 
 
 def random_database():
     if User.objects.count() < 40:
         for i in range(40):
             q, w, e = usermakerX(i)
-            User.objects.create(username=q, first_name=w, last_name=e)
+            # User.objects.create(username=q, first_name=w, last_name=e)
+            User.objects.create_user(username=q, email=w, password=e)
 
     for com in companies:
         if Company.objects.count() < 8:
             Company.objects.create(
                 name=com['title'], location=choice(cities),
                 employee_count=choice(list(range(1, 500))),
-                owner=User.objects.get(pk=User.objects.count())
+                owner=User.objects.get(username=str('username' + str(choice(list(range(40))))))
             )
+
     for sp in specialties:
         if Specialty.objects.count() < 8:
             Specialty.objects.create(code=sp['code'], slug=sp['code'], title=sp['title'])
+
     for j in jobs:
         if Vacancy.objects.count() < 40:
             Vacancy.objects.create(

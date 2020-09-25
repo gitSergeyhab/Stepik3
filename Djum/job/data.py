@@ -154,7 +154,6 @@ level = 'Intern', 'Junior', 'Middle', 'Senior', 'Lead',
 skillist = ['Python', 'Django', 'Flask', 'PHP', 'JS', 'Node', 'Vue', 'React', 'Git', 'SQL', 'CSS', 'HTML',
             'Ruby', 'Rails', 'Laravel', 'Spring', 'Angular', 'Ember', 'правапессанее', 'и чтоб человек хороший',
             'C++', 'C#', 'C', 'Java', 'Kotlin', 'Pandas', 'Numpy', 'MySQL', 'Symfony', 'CodeIgniter', 'Yii 2',
-            'Phalcon', 'Swift', 'ML', 'Паринг', 'BS4',
+            'Phalcon', 'Swift', 'ML', 'Парсинг', 'BS4',
             'Grails', 'Vaadin', 'Spark', 'Bootstrap', 'Poco', 'Asio C++', 'WebSocket++', ]
 
-# print(Vacancy.objects.count())

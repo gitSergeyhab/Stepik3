@@ -4,7 +4,6 @@ from django.contrib import admin
 from .models import Specialty, Company, Vacancy, Application
 
 
-
 class VacancyAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'level', 'specialty', 'company', 'salary_min', 'salary_max', 'published_at']
     list_display_links = ['id', 'title']
@@ -20,7 +19,7 @@ class SpecialtyAdmin(admin.ModelAdmin):
 
 
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'location', 'employee_count']
+    list_display = ['id', 'name', 'location', 'owner', 'employee_count']
     list_display_links = ['id', 'name']
     search_fields = ['name', 'location', 'employee_count']
 
@@ -30,7 +29,6 @@ class ApplicationAdmin(admin.ModelAdmin):
     list_display_links = ['user']
     search_fields = ['written_username']
     list_filter = ['vacancy']
-
 
 
 '''

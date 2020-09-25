@@ -131,4 +131,3 @@ STATICFILES_DIRS = [
 # нужно для работы debug-toolbar:
 INTERNAL_IPS = ['127.0.0.1', ]
 
-# redirect_authenticated_user = True
