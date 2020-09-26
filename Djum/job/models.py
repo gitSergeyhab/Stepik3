@@ -13,7 +13,7 @@ class Company(models.Model):
     logo = models.ImageField(verbose_name="Логотип", upload_to="logs/%Y/%m/%d/", blank=True)
     description = models.TextField(verbose_name="Информация о компании", blank=True)
     employee_count = models.IntegerField(verbose_name="Количество сотрудников", null=True, blank=True)
-    owner = models.ForeignKey(User, related_name="company", on_delete=models.CASCADE)
+    owner = models.OneToOneField(User, related_name="company", on_delete=models.CASCADE)
 
     def get_absolute_url(self):
         return reverse('company', kwargs={'pk': self.pk})
@@ -129,4 +129,4 @@ class Application(models.Model):
         ordering = ['written_username']
 
 # раскомментировать при создании базы данных:
-random_database()
+# random_database()

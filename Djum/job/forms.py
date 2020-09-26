@@ -46,7 +46,6 @@ class UserRegForm(UserCreationForm):
         fields = ['username', 'first_name', 'last_name']
 
 
-
 # --------------- форма аутентификации -----------------------
 class UserAutForm(AuthenticationForm):
     username = forms.CharField(label='Логин',
@@ -56,10 +55,12 @@ class UserAutForm(AuthenticationForm):
 
 
 # --------------- изменение компании --------------------
-class EditComForm(forms.ModelForm):
+class AddComForm(forms.ModelForm):
+
     class Meta:
         model = Company
-        fields = ['name', 'logo', 'employee_count', 'location', 'description', 'owner']
+        fields = ['name', 'logo', 'employee_count', 'location', 'description','owner']
+
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -68,4 +69,3 @@ class EditComForm(forms.ModelForm):
             # 'employee_count': forms.IntegerField(),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, }),
         }
-

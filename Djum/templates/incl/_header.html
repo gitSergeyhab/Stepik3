@@ -27,9 +27,9 @@
               {{ request.user.username }}
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-              <a href="{% url 'logout' %}" class="dropdown-item nav-link font-weight-bold"><span>Профиль</span></a>
-              <a href="{% url 'logout' %}" class="dropdown-item nav-link font-weight-bold"><span>Резюме</span></a>
-              <a href="{% url 'logout' %}" class="dropdown-item nav-link font-weight-bold"><span>Компания</span></a>
+              <a href="{% url 'mycompany' %}" class="dropdown-item nav-link font-weight-bold"><span>Профиль</span></a>
+              <a href="{% url 'mycompany' %}" class="dropdown-item nav-link font-weight-bold"><span>Резюме</span></a>
+              <a href="{% url 'mycompany' %}" class="dropdown-item nav-link font-weight-bold"><span>Компания</span></a>
               <a href="{% url 'logout' %}" class="dropdown-item nav-link font-weight-bold"><span>Выход</span></a>
             </div>
           </div>

@@ -3,15 +3,17 @@
 
 # Create your views here.
 from django.contrib.auth import login
+from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
-from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import Specialty, Company, Vacancy, Application
 from .models import skillist
 from random import shuffle
-from .forms import ApplicationForm, UserRegForm, UserAutForm, EditComForm
+from .forms import ApplicationForm, UserRegForm, UserAutForm, AddComForm
 
 title = 'Джуманджи'
 shuffle(skillist)
@@ -140,9 +142,31 @@ def my_login(request):
 
 
 class EditCompany(CreateView):
-    form_class = EditComForm
+    form_class = AddComForm
     template_name = 'job/company-edit.html'
     extra_context = {'title': title, }
+
+
+class AddCompany(CreateView):
+    model = Company
+    form_class = AddComForm
+    template_name = 'job/company-edit.html'
+    extra_context = {'title': title, }
+
+    # def form_valid(self, form):
+    #     form.instance.user = self.request.user
+    #     form.save()
+    #     return redirect('/job/company-edit/')
+
+
+class UpdateComp(UpdateView):
+    model = Company
+    form_class = AddComForm
+    template_name = 'job/company-upd.html'
+    extra_context = {'title': title, }
+
+    # def get_success_url(self):
+    #     return reverse('companies')
 
 
 class MyVacancies(ListView):
@@ -152,4 +176,13 @@ class MyVacancies(ListView):
     extra_context = {'title': title}
 
     def get_queryset(self):
-        return Vacancy.objects.filter(company__owner__pk=self.request.user.pk)
+        return Vacancy.objects.filter(company__owner=self.request.user)
+
+
+class UserProf(DetailView):
+    template_name = 'job/user_prof.html'
+    context_object_name = 'user_'
+    extra_context = {'title': title}
+
+    def get_queryset(self):
+        return User.objects.filter(pk=self.request.user.pk)

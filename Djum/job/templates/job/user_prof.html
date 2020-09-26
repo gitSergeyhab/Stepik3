@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ {{ block.super }} | {{ request.user }}
+{% endblock %}
+
+{% block first_section %}
+
+  {% include 'incl/_searcher.html' %}
+
+{% endblock %}
+
+
+{% block cards1 %}
+
+{% endblock %}
