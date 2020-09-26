@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.forms import UserCreationForm
 
@@ -147,6 +148,8 @@ class EditCompany(CreateView):
     extra_context = {'title': title, }
 
 
+
+# !!! не получается установить активного юзера по умолчаниб
 class AddCompany(CreateView):
     model = Company
     form_class = AddComForm
@@ -190,5 +193,13 @@ class UserProf(DetailView):
         context['allus'] = User.objects.all
         return context
 
-    # def get_queryset(self):
-    #     return User.objects.filter(pk=self.request.user.pk)
+
+# class DemoComp(View):
+#
+#     template_name = 'job/my_demo_company.html'
+#     extra_context = {'title': title}
+
+
+class DemoComp(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'job/my_demo_company.html', context={'title': title})
