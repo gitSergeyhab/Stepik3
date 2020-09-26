@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% block title %}
+{{ block.super }} | {{ request.user }} | Редактирование компании
+{% endblock %}
 
 {% block first_section %}
 

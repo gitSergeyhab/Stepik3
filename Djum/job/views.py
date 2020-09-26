@@ -180,9 +180,15 @@ class MyVacancies(ListView):
 
 
 class UserProf(DetailView):
+    model = User
     template_name = 'job/user_prof.html'
-    context_object_name = 'user_'
+    context_object_name = 'curuser'
     extra_context = {'title': title}
 
-    def get_queryset(self):
-        return User.objects.filter(pk=self.request.user.pk)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['allus'] = User.objects.all
+        return context
+
+    # def get_queryset(self):
+    #     return User.objects.filter(pk=self.request.user.pk)

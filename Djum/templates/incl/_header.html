@@ -17,39 +17,7 @@
         <a class="nav-link" href="{% url 'main' %}">О проекте</a>
       </li>
     </ul>
-    <ul class="navbar-nav col-2 justify-content-end">
-
-        {% if request.user.is_authenticated %}
-
-        <li class="nav-item active">
-          <div class="dropdown open">
-            <button class="btn btn-light font-weight-bold dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{ request.user.username }}
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-              <a href="{% url 'mycompany' %}" class="dropdown-item nav-link font-weight-bold"><span>Профиль</span></a>
-              <a href="{% url 'mycompany' %}" class="dropdown-item nav-link font-weight-bold"><span>Резюме</span></a>
-              <a href="{% url 'mycompany' %}" class="dropdown-item nav-link font-weight-bold"><span>Компания</span></a>
-              <a href="{% url 'logout' %}" class="dropdown-item nav-link font-weight-bold"><span>Выход</span></a>
-            </div>
-          </div>
-        </li>
-
-        {% else %}
-
-        <li class="nav-item active">
-          <a href="{% url 'login' %}" class="nav-link font-weight-bold"><span>Вход</span></a>
-        </li>
-        <li class="nav-item active">
-         <p class="nav-link font-weight-bold"><span>|</span></p>
-        </li>
-        <li class="nav-item active">
-          <a href="{% url 'signup' %}" class="nav-link font-weight-bold"><span>Регистрация</span></a>
-        </li>
-
-        {% endif %}
-
-    </ul>
+    {% include 'incl/_incl_profile.html' %}
   </div>
 </nav>
 </header>

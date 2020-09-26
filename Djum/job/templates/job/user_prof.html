@@ -1,16 +1,47 @@
 {% extends 'base.html' %}
 
 {% block title %}
- {{ block.super }} | {{ request.user }}
+{{ block.super }} | {{ request.user }}
 {% endblock %}
 
-{% block first_section %}
-
-  {% include 'incl/_searcher.html' %}
-
-{% endblock %}
 
 
 {% block cards1 %}
 
+
+      <div class="row mt-5">
+        <div class="col-12 col-lg-11 offset-lg-2 m-auto">
+
+          <div class="card mb-4">
+            <div class="card-body px-4">
+              <div class="row">
+                <div class="col-12 col-md-10 col-lg-3 d-flex align-items-center">
+                  <a href="{% url 'company' user.company.pk %}"><img src="../../static/logs/logo{{ user.company.pk }}.png" width="130" height="80" alt=""></a>
+                </div>
+
+                <div class="col-12 col-md-8 col-lg-8 ">
+
+                  <h2 class="h2 pb-2 bg-success">Пользователь: {{ user.username|upper }} </h2>
+                  <h2 class="h2 pb-2">Имя: {{ user.first_name }}      <br>    фамилия: {{ user.last_name }}</h2>
+                  <h4 class="h4 pb-2 bg-info">Компания: {{ user.company|upper }}</h4><br>
+                 <h5 class="h5 pb-2 ">{{ user.company.employee_count }} работника(ов) , город {{ user.company.location }}</h5>
+
+                  <p><b>О компании:</b> {% lorem 113 w random %}...</p>
+                 <div class="raw justify-content-between">
+                  <a class="col-5" href="{% url 'profile' user.pk %}"><input type="button" class="btn btn-primary btn-sm"  value='редактировать профиль пользователя'></a>
+                  {% if request.user.company %}
+                  <a class="col-5" href="{% url 'update_comp' user.company.pk %}"><input type="button" class="btn btn-primary btn-sm"  value='редактировать профиль компании'></a>
+                  {% endif %}
+                 </div>
+
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
 {% endblock %}
