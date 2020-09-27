@@ -7,6 +7,8 @@
     <h1 class="h1 text-center mx-auto my-0 py-0" style="font-size: 70px;"><strong>{{ flag_company.0|upper }}</strong></h1>
   </div>
 </div>
+{% elif flag_search %}
+<h1 class="h1 text-center mx-auto mt-4 pt-5" style="font-size: 70px;"><strong>Поиск вакансий</strong></h1>
 {% else %}
 <h1 class="h1 text-center mx-auto mt-4 pt-5" style="font-size: 70px;"><strong>Все вакансии</strong></h1>
 {% endif %}

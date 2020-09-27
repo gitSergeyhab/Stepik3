@@ -14,7 +14,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Specialty, Company, Vacancy, Application
 from .models import skillist
 from random import shuffle
-from .forms import ApplicationForm, UserRegForm, UserAutForm, AddComForm
+from .forms import ApplicationForm, UserRegForm, UserAutForm, AddComForm, UpdVacForm
 
 title = 'Джуманджи'
 shuffle(skillist)
@@ -93,6 +93,7 @@ class CreateApplication(CreateView):
     form_class = ApplicationForm
     template_name = 'job/vacancy.html'
     extra_context = {'title': title, }
+    success_url = '/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -133,13 +134,7 @@ def my_login(request):
     return render(request, 'login.html', {'form': form, 'title': title, })
 
 
-# ----------------------- user profil ----------------------------
-
-'''
-– Моя компания /mycompany
-– Мои вакансии /mycompany/vacancies
-– Одна моя вакансия  /mycompany/vacancies/<vacancy_id>
-'''
+# ----------------------- user profile ----------------------------
 
 
 class EditCompany(CreateView):
@@ -148,31 +143,32 @@ class EditCompany(CreateView):
     extra_context = {'title': title, }
 
 
-
 # !!! не получается установить активного юзера по умолчаниб
 class AddCompany(CreateView):
+    """   добавление компании    """
     model = Company
     form_class = AddComForm
     template_name = 'job/company-edit.html'
     extra_context = {'title': title, }
 
-    # def form_valid(self, form):
-    #     form.instance.user = self.request.user
-    #     form.save()
-    #     return redirect('/job/company-edit/')
-
 
 class UpdateComp(UpdateView):
+    """   редактирование компании    """
     model = Company
     form_class = AddComForm
     template_name = 'job/company-upd.html'
     extra_context = {'title': title, }
 
-    # def get_success_url(self):
-    #     return reverse('companies')
+
+# !!! не получилось сделать нормальную ссылку после редактирования компании
+# - почему-то выкидывает на список вакансий по компаниям   /company/x
+# def get_success_url(self):
+#     return reverse('companies')
 
 
 class MyVacancies(ListView):
+    """ лист вакансий компаний аутифиц. пользователя с компанией """
+    # раз есть get_queryset   model = Vacancy    можно удалить
     model = Vacancy
     template_name = 'job/vacancy-list.html'
     context_object_name = 'vacancies'
@@ -183,23 +179,65 @@ class MyVacancies(ListView):
 
 
 class UserProf(DetailView):
+    """ окно при нажатии на "компания" в выпадающем меню зарег пользователя,
+    у которого нет компании (ссылка на допввление компании) """
     model = User
     template_name = 'job/user_prof.html'
+    # context_object_name   на самом деле не требуется и не используется - используется   user  и  request.user
     context_object_name = 'curuser'
     extra_context = {'title': title}
 
+    # сет всех юзеров  --  не используется - можно удалить:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['allus'] = User.objects.all
         return context
 
 
-# class DemoComp(View):
-#
-#     template_name = 'job/my_demo_company.html'
-#     extra_context = {'title': title}
-
-
 class DemoComp(View):
+    """ окно при нажатии на "компания" в выпадающем меню зарег пользователя,
+    у которого нет компании (ссылка на допввление компании) """
+
     def get(self, request, *args, **kwargs):
         return render(request, 'job/my_demo_company.html', context={'title': title})
+
+
+class UpdateVacancy(UpdateView):
+    """ правка вакансии """
+    # model = Vacancy
+    # fields = ['title', 'specialty', 'salary_min', 'salary_max', 'skills', 'description']
+    form_class = UpdVacForm
+
+    template_name = 'job/vacancy-edit.html'
+    extra_context = {'title': title, }
+
+    # забираем только вакансии от компании юзера:
+    def get_queryset(self):
+        return Vacancy.objects.filter(company__owner=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # context['vac_list'] = Vacancy.objects.filter(company__owner=self.request.user)
+        # context['app_list'] = Application.objects.filter(vacancy__company__owner=self.request.user)
+        context['vac1'] = Vacancy.objects.get(pk=self.kwargs['pk'])
+        context['vac_pk'] = Application.objects.filter(vacancy__pk=self.kwargs['pk'])
+        return context
+
+    # !!! по умолчанию выдает ошибку, потому решил сделать перенаправление хоть куда-нибудь
+    # !!! как работает    reverse()   не разобрался
+    def get_success_url(self):
+        return '/'
+
+
+class Searcher(ListView):
+    context_object_name = 'vacancies'
+    template_name = 'job/searcher.html'
+    extra_context = {'title': title, 'skillist': skillist[:3]}
+
+    def get_queryset(self):
+        return Vacancy.objects.filter(title__icontains=self.request.GET.get('sea'))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['flag_search'] = self.request.GET.get('sea')
+        return context

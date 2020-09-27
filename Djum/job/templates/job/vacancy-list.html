@@ -18,11 +18,12 @@
                     <div class="col-6 col-lg-8">
                       <a href="{% url 'application' vac.pk %} " class="mb-1">{{ vac.title }}</a>
                       <p class="mb-1">
-                        <span class="mr-4">{{ vac.salary_min }} - {{ vac.salary_max }}</span><a href="#" class="text-info">3 отклика</a>
+                        <span class="mr-4">{{ vac.salary_min }} - {{ vac.salary_max }}</span><a href="{% url 'update_vac' vac.pk %}#aps" class="text-info">
+                        {{ vac.applications.all|length }} отклика(ов)</a>
                       </p>
                     </div>
                     <div class="col-6 col-lg-4 text-right">
-                      <a href="#" class="btn btn-outline-info">Изменить</a>
+                      <a href="{% url 'update_vac' vac.pk %}" class="btn btn-outline-info">Изменить</a>
                     </div>
                   </div>
                 </div>

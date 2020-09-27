@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
+<!--request.user    но просто   user    тоже работае, хотя нигде не прописан-->
 {{ block.super }} | {{ request.user }}
 {% endblock %}
 
@@ -8,19 +9,18 @@
 
 {% block cards1 %}
 
-
       <div class="row mt-5">
         <div class="col-12 col-lg-11 offset-lg-2 m-auto">
-
           <div class="card mb-4">
             <div class="card-body px-4">
-
               <div class="row">
+<!--                  чтобы не было ошибок для юзеров без компаний-->
                 {% if user.company %}
                 <div class="col-12 col-md-10 col-lg-3 d-flex align-items-center">
                   <a href="{% url 'company' user.company.pk %}"><img src="../../static/logs/logo{{ user.company.pk }}.png" width="130" height="80" alt=""></a>
                 </div>
                 {% endif %}
+
                 <div class="col-12">
                 <div>
                     <div class="col-12">
@@ -28,33 +28,28 @@
                     <h2 class="h2 pb-2 text-center">Имя: {{ user.first_name }}      <br>    фамилия: {{ user.last_name }}</h2>
                     </div>
                 </div>
+<!--                  чтобы не было ошибок для юзеров без компаний-->
                   {% if user.company %}
                   <h4 class="h4 pb-2 bg-info">Компания: {{ user.company|upper }}</h4><br>
-
                  <h5 class="h5 pb-2 ">{{ user.company.employee_count }} работника(ов) , город {{ user.company.location }}</h5>
-
                   <p><b>О компании:</b> {% lorem 113 w random %}...</p>
                     {% endif %}
 
                  <div class="btn-toolbar justify-content-between">
                   <a class=" btn-group" href="{% url 'profile' user.pk %}"><input type="button" class="btn btn-primary btn-sm"  value='редактировать профиль пользователя'></a>
-                  {% if request.user.company %}
+<!--                  если у юзера есть компания - ссылка на редактировние
+если нет - ссылка на добавление-->
+                     {% if request.user.company %}
                   <a class="btn-group" href="{% url 'update_comp' user.company.pk %}"><input type="button" class="btn btn-primary btn-sm"  value='редактировать профиль компании'></a>
                      {% else %} <br><br>
                   <a class="btn-group" href="{% url 'addmycompany' %}"><input type="button" class="btn btn-primary btn-sm"  value='Добавить компанию'></a>
                   {% endif %}
+
                  </div>
-
                 </div>
-
-
               </div>
-
             </div>
           </div>
-
         </div>
       </div>
-
-
 {% endblock %}

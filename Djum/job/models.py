@@ -54,8 +54,11 @@ class Vacancy(models.Model):
     salary_max = models.IntegerField(verbose_name="Зарплата до")
     published_at = models.DateField(verbose_name="Опубликовано", auto_now_add=True)
 
+    # def get_absolute_url(self):
+    #     return reverse('vacancies', kwargs={'pk': self.pk})
+
     def get_absolute_url(self):
-        return reverse('vacancies', kwargs={'pk': self.pk})
+        return reverse('application', kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.title
