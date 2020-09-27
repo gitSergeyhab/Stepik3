@@ -83,18 +83,22 @@ def usermakerX(x):
 def random_database():
     # число юзеров, компаний, специальностей, вакансий = ....
     nun_users, num_coms, num_sps, num_vacs = 40, 8, 8, 40
+    somelist = list(range(40))
+    shuffle(somelist)
 
     if User.objects.count() < nun_users:
         for i in range(nun_users):
             q, w, e = usermakerX(i)
             User.objects.create_user(username=q, email=w, password=e)
 
+    c = 0
     for com in companies:
+        c += 1
         if Company.objects.count() < num_coms:
             Company.objects.create(
                 name=com['title'], location=choice(cities),
                 employee_count=choice(list(range(1, 500))),
-                owner=User.objects.get(username=str('username' + str(choice(list(range(nun_users))))))
+                owner=User.objects.get(username=str('username' + str(somelist[c])))
             )
 
     for sp in specialties:
@@ -131,5 +135,6 @@ class Application(models.Model):
     class Meta:
         ordering = ['written_username']
 
+
 # раскомментировать при создании базы данных:
-# random_database()
+random_database()
