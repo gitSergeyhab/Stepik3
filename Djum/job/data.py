@@ -1,5 +1,6 @@
-""" Вакансии """
+from enum import Enum
 
+""" Вакансии """
 jobs = [
     {"title": "Разработчик на Python", "cat": "backend", "company": "staffingsmarter", "salary_from": "100000",
      "salary_to": "150000", "posted": "2020-03-11", "desc": "Потом добавим"},
@@ -118,37 +119,7 @@ level = 'Intern', 'Junior', 'Middle', 'Senior', 'Lead',
 
 #
 #
-# class EducationChoices(Enum):
-#     missing = 'Отсутствует'
-#     secondary = 'Среднее'
-#     vocational = 'Средне-специальное'
-#     incomplete_higher = 'Неполное высшее'
-#     higher = 'Высшее'
-#
-#
-# class GradeChoices(Enum):
-#     intern = 'intern'
-#     junior = 'junior'
-#     middle = 'middle'
-#     senior = 'senior'
-#     lead = 'lead'
-#
-#
-# class SpecialtyChoices(Enum):
-#     frontend = 'Фронтенд'
-#     backend = 'Бэкенд'
-#     gamedev = 'Геймдев'
-#     devops = 'Девопс'
-#     design = 'Дизайн'
-#     products = 'Продукты'
-#     management = 'Менеджмент'
-#     testing = 'Тестирование'
-#
-#
-# class WorkStatusChoices(Enum):
-#     not_in_search = 'Не ищу работу'
-#     consideration = 'Рассматриваю предложения'
-#     in_search = 'Ищу работу'
+
 
 
 skillist = ['Python', 'Django', 'Flask', 'PHP', 'JS', 'Node', 'Vue', 'React', 'Git', 'SQL', 'CSS', 'HTML',

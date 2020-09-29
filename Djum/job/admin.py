@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Specialty, Company, Vacancy, Application
+from .models import Specialty, Company, Vacancy, Application, UserSummary
 
 
 class VacancyAdmin(admin.ModelAdmin):
@@ -31,16 +31,17 @@ class ApplicationAdmin(admin.ModelAdmin):
     list_filter = ['vacancy']
 
 
-'''
-    written_username = models.CharField(max_length=32, verbose_name="Имя")
-    written_phone = models.CharField(max_length=32, verbose_name="Телефон")
-    written_cover_letter = models.TextField(verbose_name="Сопроводительное письмо")
-    vacancy = models.ForeignKey(Vacancy, related_name="applications", on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name="applications", on_delete=models.CASCADE)
+class UserSummaryAdmin(admin.ModelAdmin):
+    list_display = ['first_name', 'last_name', 'readiness', 'salary', 'specialty',
+                    'level', 'education', 'user']
+    list_display_links = ['user']
 
-'''
+
+# fields = ['first_name', 'last_name', 'readiness', 'salary', 'specialty',
+#           'level', 'education', 'experience', 'portfolio', 'user']
 
 admin.site.register(Specialty, SpecialtyAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Vacancy, VacancyAdmin)
 admin.site.register(Application, ApplicationAdmin)
+admin.site.register(UserSummary, UserSummaryAdmin)

@@ -20,7 +20,15 @@
             <div class="card-body px-4">
               <div class="row">
                 <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">
-                  <a href="{{ com.get_absolute_url }}"><img src="../../static/logs/logo{{ com.pk }}.png" width="130" height="80" alt=""></a>
+
+                    {% if com.logo %}
+                      <a href="{{ com.get_absolute_url }}"><img src="{{ com.logo.url }}" width="130" height="80" alt=""></a>
+                      {% else %}
+                      <a href="{{ com.get_absolute_url }}"><img src="../../static/logs/logo{{ com.pk }}.png" width="130" height="80" alt=""></a>
+                      {% endif %}
+
+
+
                 </div>
                 <div class="col-12 col-md-8 col-lg-9">
                   <a class="text-secondary" href="{{ com.get_absolute_url }}"><h2 class="h2 pb-2">{{ com.name|upper }}</h2></a>

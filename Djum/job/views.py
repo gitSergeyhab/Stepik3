@@ -11,10 +11,10 @@ from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Specialty, Company, Vacancy, Application
+from .models import Specialty, Company, Vacancy, Application, UserSummary
 from .models import skillist
 from random import shuffle
-from .forms import ApplicationForm, UserRegForm, UserAutForm, AddComForm, UpdVacForm
+from .forms import ApplicationForm, UserRegForm, UserAutForm, AddComForm, UpdVacForm, UpdSummaryForm
 
 title = 'Джуманджи'
 shuffle(skillist)
@@ -241,3 +241,25 @@ class Searcher(ListView):
         context = super().get_context_data(**kwargs)
         context['flag_search'] = self.request.GET.get('sea')
         return context
+
+
+class AddSummary(CreateView):
+    model = UserSummary
+    form_class = UpdSummaryForm
+    template_name = 'job/resume-edit.html'
+    extra_context = {'title': title, }
+
+
+class UpdSummary(UpdateView):
+    model = UserSummary
+    form_class = UpdSummaryForm
+    template_name = 'job/resume-edit.html'
+    extra_context = {'title': title, }
+
+
+class DemoSummary(View):
+    """ окно при нажатии на "компания" в выпадающем меню зарег пользователя,
+    у которого нет компании (ссылка на допввление компании) """
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'job/resume-create.html', context={'title': title})

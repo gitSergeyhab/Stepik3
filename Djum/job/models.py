@@ -1,3 +1,5 @@
+from enum import Enum
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
@@ -5,6 +7,39 @@ from django.urls import reverse
 from random import choice, shuffle
 
 from job.data import jobs, skillist, companies, cities, specialties, level
+
+
+class EducationChoices(Enum):
+    missing = 'Отсутствует'
+    secondary = 'Среднее'
+    vocational = 'Средне-специальное'
+    incomplete_higher = 'Неполное высшее'
+    higher = 'Высшее'
+
+
+class GradeChoices(Enum):
+    intern = 'intern'
+    junior = 'junior'
+    middle = 'middle'
+    senior = 'senior'
+    lead = 'lead'
+
+
+class SpecialtyChoices(Enum):
+    frontend = 'Фронтенд'
+    backend = 'Бэкенд'
+    gamedev = 'Геймдев'
+    devops = 'Девопс'
+    design = 'Дизайн'
+    products = 'Продукты'
+    management = 'Менеджмент'
+    testing = 'Тестирование'
+
+
+class WorkStatusChoices(Enum):
+    not_in_search = 'Не ищу работу'
+    consideration = 'Рассматриваю предложения'
+    in_search = 'Ищу работу'
 
 
 class Company(models.Model):
@@ -136,5 +171,79 @@ class Application(models.Model):
         ordering = ['written_username']
 
 
+# ------------------ резюме ------------------
+# этот вариант не работает - выдает
+# class UserSummary(models.Model):
+#     user = models.OneToOneField(User, related_name="summary", on_delete=models.CASCADE)
+#     first_name = models.CharField(max_length=32)
+#     last_name = models.CharField(max_length=32)
+#     readiness = models.CharField(
+#           max_length=32,
+#           choices=[(tag, tag.value) for tag in WorkStatusChoices])
+#     salary = models.PositiveIntegerField()
+#     specialty = models.ForeignKey(Specialty, on_delete=models.CASCADE)
+#     level = models.CharField(
+#           max_length=32,
+#           choices=[(tag, tag.value) for tag in GradeChoices])
+#     education = models.CharField(
+#           max_length=32,
+#           choices=[(tag, tag.value) for tag in EducationChoices])
+#     experience = models.TextField()
+#     portfolio = models.CharField(max_length=32)
+#
+#     def get_absolute_url(self):
+#         return reverse('usersummary', kwargs={'pk': self.user.pk})
+#
+#     def __str__(self):
+#         return self.first_name, self.last_name
+
+
+class UserSummary(models.Model):
+    EducationChoices = {
+        ('missing', 'Отсутствует'),
+        ('secondary', 'Среднее'),
+        ('vocational', 'Средне-специальное'),
+        ('incomplete_higher', 'Неполное высшее'),
+        ('higher', 'Высшее'),
+    }
+
+    GradeChoices = {
+        ('intern', 'intern'),
+        ('junior', 'junior'),
+        ('middle', 'middle'),
+        ('senior', 'senior'),
+        ('lead', 'lead'),
+    }
+    WorkStatusChoices = {
+        ('not_in_search', 'Не ищу работу'),
+        ('consideration', 'Рассматриваю предложения'),
+        ('in_search', 'Ищу работу'),
+    }
+
+    user = models.OneToOneField(User, related_name="summary", on_delete=models.CASCADE, verbose_name="Юзер")
+    first_name = models.CharField(max_length=32, verbose_name="Имя")
+    last_name = models.CharField(max_length=32, verbose_name="Фамилия")
+    readiness = models.CharField(
+        max_length=32,
+        choices=WorkStatusChoices, verbose_name="Готовность")
+    salary = models.PositiveIntegerField(verbose_name="Хочу")
+    specialty = models.ForeignKey(Specialty, on_delete=models.CASCADE, verbose_name="Специализация")
+    level = models.CharField(
+        max_length=32,
+        choices=GradeChoices, verbose_name="Крутость")
+    education = models.CharField(
+        max_length=32,
+        choices=EducationChoices, verbose_name="Образование")
+    experience = models.TextField( verbose_name="Опыт")
+    portfolio = models.CharField(max_length=32)
+
+    def get_absolute_url(self):
+        return reverse('usersummary', kwargs={'pk': self.user.pk})
+
+    def __str__(self):
+        return ' '.join((self.first_name, self.last_name))
+
+
+
 # раскомментировать при создании базы данных:
-random_database()
+# random_database()

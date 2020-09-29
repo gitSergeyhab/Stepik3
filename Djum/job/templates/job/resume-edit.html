@@ -1,58 +1,145 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends 'base.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <title>Создать резюме | Джуманджи</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <style>
-    body {
-      background-color: #F6F2E6;
-    }
-  </style>
-</head>
+{% block first_section %}
 
-<body>
-  <header class="container mt-3">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand mr-4 font-weight-bold" href="#">Джуманджи</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-        <ul class="navbar-nav col-10">
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Вакансии</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Компании</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="#">О проекте</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav col-2 justify-content-end">
-          <li class="nav-item active">
-            <div class="btn-group">
-              <button type="button" class="btn dropdown-toggle font-weight-bold" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Иван Топорыжкин
-              </button>
-              <div class="dropdown-menu dropdown-menu-right mt-3">
-                <a href="#" class="dropdown-item py-2">Профиль</a>
-                <a href="#" class="dropdown-item py-2">Резюме</a>
-                <a href="#" class="dropdown-item py-2">Компания</a>
-                <a href="#" class="dropdown-item py-2">Выйти</a>
+
+
+<form action="" method="post">
+     {% csrf_token %}
+
+ <section class="col-12 col-lg-6 offset-lg-3 mt-5 card">
+      <div class="card-body px-3 pb-4">
+        <h1 class="h4 pt-2 pb-3">Мое резюме</h1>
+<!--        <p class="alert alert-info" role="alert">Ваше резюме обновлено!</p>-->
+        <form action="" method="post">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group pb-2">
+                <label class="mb-2 text-dark" for="{{ form.first_name.id_for_label }}">Имя</label>
+                        <p>{{ form.first_name }}</p>
+                        <div class="invalid-feedback">
+                        {{ form.first_name.errors}}
+                        </div>
               </div>
             </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
 
-  <main class="container mt-3 pb-5">
-    <section class="col-12 col-lg-6 offset-lg-3 mt-5 card">
+            <div class="col-12 col-md-6">
+              <div class="form-group pb-2">
+                        <label class="mb-2 text-dark" for="{{ form.last_name.id_for_label }}">Фамилия</label>
+                        <p>{{ form.last_name }}</p>
+                        <div class="invalid-feedback">
+                        {{ form.last_name.errors}}
+                        </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group pb-2">
+                        <label class="mb-2 text-dark" for="{{ form.readiness.id_for_label }}">Готовность к работе</label>
+                        <p>{{ form.readiness }}</p>
+                        <div class="invalid-feedback">
+                        {{ form.readiness.errors}}
+                        </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-group pb-2">
+                        <label class="mb-2 text-dark" for="{{ form.salary.id_for_label }}">Ожидаемое вознаграждение</label>
+                        <p>{{ form.salary }}</p>
+                        <div class="invalid-feedback">
+                        {{ form.salary.errors}}
+                        </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group pb-2">
+                        <label class="mb-2 text-dark" for="{{ form.specialty.id_for_label }}">Специализация</label>
+                        <p>{{ form.specialty }}</p>
+                        <div class="invalid-feedback">
+                        {{ form.specialty.errors}}
+                        </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-group pb-2">
+                        <label class="mb-2 text-dark" for="{{ form.level.id_for_label }}">Квалификация</label>
+                        <p>{{ form.level }}</p>
+                        <div class="invalid-feedback">
+                        {{ form.level.errors}}
+                        </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group pb-2">
+                        <label class="mb-2 text-dark" for="{{ form.education.id_for_label }}">Образование</label>
+                        <p>{{ form.education }}</p>
+                        <div class="invalid-feedback">
+                        {{ form.education.errors}}
+                        </div>
+          </div>
+
+          <div class="form-group pb-2">
+                        <label class="mb-2 text-dark" for="{{ form.experience.id_for_label }}">Опыт работы</label>
+                        <p>{{ form.experience }}</p>
+                        <div class="invalid-feedback">
+                        {{ form.experience.errors}}
+                        </div>
+          </div>
+
+          <div class="form-group pb-3">
+                        <label class="mb-2 text-dark" for="{{ form.portfolio.id_for_label }}">Ссылка на портфолио</label>
+                        <p>{{ form.portfolio }}</p>
+                        <div class="invalid-feedback">
+                        {{ form.portfolio.errors}}
+                        </div>
+          </div>
+          <div class="form-group pb-3">
+                        <label class="mb-2 text-dark" for="{{ form.user.id_for_label }}">User</label>
+                        <p>{{ form.user }}</p>
+                        <div class="invalid-feedback">
+                        {{ form.user.errors}}
+                        </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-info">Сохранить</button>
+          </div>
+        </form>
+      </div>
+    </section>
+</form>
+
+
+
+
+
+
+
+
+
+{% comment %}
+{% load crispy_forms_tags %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-info">Сохранить</button>
+</form>
+
+{% endcomment %}
+{% endblock %}
+
+
+{% comment %}
+ <section class="col-12 col-lg-6 offset-lg-3 mt-5 card">
       <div class="card-body px-3 pb-4">
         <h1 class="h4 pt-2 pb-3">Мое резюме</h1>
         <p class="alert alert-info" role="alert">Ваше резюме обновлено!</p>
@@ -130,10 +217,4 @@
         </form>
       </div>
     </section>
-  </main>
-
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-</html>
+{% endcomment %}
