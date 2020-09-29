@@ -202,6 +202,20 @@ class DemoComp(View):
         return render(request, 'job/my_demo_company.html', context={'title': title})
 
 
+class AddVacancy(CreateView):
+    model = Vacancy
+    form_class = UpdVacForm
+    template_name = 'job/vacancy-add.html'
+    extra_context = {'title': title, }
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['vac1'] = Vacancy.objects.get(pk=self.kwargs['pk'])
+    #     context['vac_pk'] = Application.objects.filter(vacancy__pk=self.kwargs['pk'])
+    #     return context
+
+
+
 class UpdateVacancy(UpdateView):
     """ правка вакансии """
     # model = Vacancy
@@ -217,8 +231,6 @@ class UpdateVacancy(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['vac_list'] = Vacancy.objects.filter(company__owner=self.request.user)
-        # context['app_list'] = Application.objects.filter(vacancy__company__owner=self.request.user)
         context['vac1'] = Vacancy.objects.get(pk=self.kwargs['pk'])
         context['vac_pk'] = Application.objects.filter(vacancy__pk=self.kwargs['pk'])
         return context

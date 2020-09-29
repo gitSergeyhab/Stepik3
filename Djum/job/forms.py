@@ -80,19 +80,34 @@ class AddComForm(forms.ModelForm):
         }
 
 
+
 # --------------- изменение вакансии --------------------
+# class UpdVacForm(forms.ModelForm):
+#     class Meta:
+#         model = Vacancy
+#         fields = ['title', 'specialty', 'salary_min', 'salary_max', 'skills', 'description']
+#
+#         widgets = {
+#             'title': forms.TextInput(attrs={'class': 'form-control'}),
+#             'specialty': forms.Select(attrs={'class': 'form-control'}),
+#             'skills': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, }),
+#             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, }),
+#         }
+
+
 class UpdVacForm(forms.ModelForm):
     class Meta:
         model = Vacancy
-        fields = ['title', 'specialty', 'salary_min', 'salary_max', 'skills', 'description']
+        fields = ['title', 'company', 'specialty', 'level', 'salary_min', 'salary_max', 'skills', 'description']
 
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'company': forms.Select(attrs={'class': 'form-control'}),
             'specialty': forms.Select(attrs={'class': 'form-control'}),
+            'level': forms.TextInput(attrs={'class': 'form-control'}),
             'skills': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, }),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, }),
         }
-
 
 class UpdSummaryForm(forms.ModelForm):
     class Meta:
@@ -104,6 +119,10 @@ class UpdSummaryForm(forms.ModelForm):
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'readiness': forms.Select(attrs={'class': 'form-control'}),
+            'level': forms.Select(attrs={'class': 'form-control'}),
+            'specialty': forms.Select(attrs={'class': 'form-control'}),
+            'education': forms.Select(attrs={'class': 'form-control'}),
             # 'salary': forms.TextInput(attrs={'class': 'form-control'}),
             'experience': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, }),
             'portfolio': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, }),

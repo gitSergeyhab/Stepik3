@@ -238,7 +238,7 @@ class UserSummary(models.Model):
     portfolio = models.CharField(max_length=32)
 
     def get_absolute_url(self):
-        return reverse('usersummary', kwargs={'pk': self.user.pk})
+        return reverse('updsummary', kwargs={'pk': self.pk})
 
     def __str__(self):
         return ' '.join((self.first_name, self.last_name))

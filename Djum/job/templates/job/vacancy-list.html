@@ -10,6 +10,17 @@
             <section class="tab-pane fade show active">
               <h2 class="h4 pt-2 pb-3">Вакансии</h2>
               <!-- vacancy state 1 -->
+<a href="{% url 'add_vac' %}" class="text-info ">
+              <div class="card mt-3">
+                <div class="card-body text-center px-4 btn btn-outline-info">
+
+                        <b>Добавить вакансию</b>
+
+                </div>
+              </div>
+</a>
+
+
               {% for vac in vacancies %}
 
               <div class="card mt-3">
