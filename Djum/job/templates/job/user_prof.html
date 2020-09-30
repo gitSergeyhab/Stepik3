@@ -112,9 +112,9 @@
 
                  <div class="btn-toolbar justify-content-between">
                      {% if user.summary %}
-                  <a class=" btn-group" href="{% url 'updsummary' user.pk %}"><input type="button" class="btn btn-primary btn-sm"  value='редактировать резюме'></a>
+                  <a class=" btn-group" href="{% url 'updresume' user.pk %}"><input type="button" class="btn btn-primary btn-sm"  value='редактировать резюме'></a>
                      {% else %}
-                 <a class=" btn-group" href="{% url 'addsummary' user.pk %}"><input type="button" class="btn btn-primary btn-sm"  value='создать резюме'></a>
+                 <a class=" btn-group" href="{% url 'myresume' %}"><input type="button" class="btn btn-primary btn-sm"  value='создать резюме'></a>
                      {% endif %}
 <!--                  если у юзера есть компания - ссылка на редактировние
 если нет - ссылка на добавление-->

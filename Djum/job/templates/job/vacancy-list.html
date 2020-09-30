@@ -2,49 +2,44 @@
 
 {% block first_section %}
 <div class="row mt-5">
-      {% include 'incl/_my_com.html' %}
+  {% include 'incl/_my_com.html' %}
 
-      <div class="col-12 col-lg-8">
-        <div class="card">
-          <div class="card-body px-4 pb-4">
-            <section class="tab-pane fade show active">
-              <h2 class="h4 pt-2 pb-3">Вакансии</h2>
-              <!-- vacancy state 1 -->
-<a href="{% url 'add_vac' %}" class="text-info ">
+  <div class="col-12 col-lg-8">
+    <div class="card">
+      <div class="card-body px-4 pb-4">
+        <section class="tab-pane fade show active">
+          <h2 class="h4 pt-2 pb-3">Вакансии</h2>
+
+            <a href="{% url 'add_vac' %}" class="text-info ">
               <div class="card mt-3">
                 <div class="card-body text-center px-4 btn btn-outline-info">
-
                         <b>Добавить вакансию</b>
-
                 </div>
               </div>
-</a>
+            </a>
 
-
-              {% for vac in vacancies %}
-
-              <div class="card mt-3">
-                <div class="card-body px-4">
-                  <div class="row align-items-center">
-                    <div class="col-6 col-lg-8">
-                      <a href="{% url 'application' vac.pk %} " class="mb-1">{{ vac.title }}</a>
-                      <p class="mb-1">
-                        <span class="mr-4">{{ vac.salary_min }} - {{ vac.salary_max }}</span><a href="{% url 'update_vac' vac.pk %}#aps" class="text-info">
-                        {{ vac.applications.all|length }} отклика(ов)</a>
-                      </p>
-                    </div>
-                    <div class="col-6 col-lg-4 text-right">
-                      <a href="{% url 'update_vac' vac.pk %}" class="btn btn-outline-info">Изменить</a>
-                    </div>
-                  </div>
+          {% for vac in vacancies %}
+          <div class="card mt-3">
+            <div class="card-body px-4">
+              <div class="row align-items-center">
+                <div class="col-6 col-lg-8">
+                  <a href="{% url 'application' vac.pk %} " class="mb-1">{{ vac.title }}</a>
+                  <p class="mb-1">
+                    <span class="mr-4">{{ vac.salary_min }} - {{ vac.salary_max }}</span><a href="{% url 'update_vac' vac.pk %}#aps" class="text-info">
+                    {{ vac.applications.all|length }} отклика(ов)</a>
+                  </p>
+                </div>
+                <div class="col-6 col-lg-4 text-right">
+                  <a href="{% url 'update_vac' vac.pk %}" class="btn btn-outline-info">Изменить</a>
                 </div>
               </div>
-
-              {% endfor %}
-
-            </section>
+            </div>
           </div>
-        </div>
+          {% endfor %}
+
+        </section>
       </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

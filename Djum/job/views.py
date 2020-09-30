@@ -208,18 +208,12 @@ class AddVacancy(CreateView):
     template_name = 'job/vacancy-add.html'
     extra_context = {'title': title, }
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['vac1'] = Vacancy.objects.get(pk=self.kwargs['pk'])
-    #     context['vac_pk'] = Application.objects.filter(vacancy__pk=self.kwargs['pk'])
-    #     return context
 
 
 
 class UpdateVacancy(UpdateView):
     """ правка вакансии """
-    # model = Vacancy
-    # fields = ['title', 'specialty', 'salary_min', 'salary_max', 'skills', 'description']
+
     form_class = UpdVacForm
 
     template_name = 'job/vacancy-edit.html'
@@ -255,14 +249,14 @@ class Searcher(ListView):
         return context
 
 
-class AddSummary(CreateView):
+class AddUserResume(CreateView):
     model = UserSummary
     form_class = UpdSummaryForm
     template_name = 'job/resume-edit.html'
     extra_context = {'title': title, }
 
 
-class UpdSummary(UpdateView):
+class UpdUserResume(UpdateView):
     model = UserSummary
     form_class = UpdSummaryForm
     template_name = 'job/resume-edit.html'

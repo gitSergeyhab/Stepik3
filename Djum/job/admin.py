@@ -4,6 +4,7 @@ from django.contrib import admin
 from .models import Specialty, Company, Vacancy, Application, UserSummary
 
 
+
 class VacancyAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'level', 'specialty', 'company', 'salary_min', 'salary_max', 'published_at']
     list_display_links = ['id', 'title']

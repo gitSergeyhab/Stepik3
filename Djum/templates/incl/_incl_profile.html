@@ -14,7 +14,7 @@
           <a href="{% url 'profile' request.user.pk %}" class="dropdown-item nav-link font-weight-bold"><span>Профиль</span></a>
 
             {%  if request.user.summary %}
-            <a href="{% url 'updsummary' user.summary.pk %}" class="dropdown-item nav-link font-weight-bold"><span>Резюме</span></a>
+            <a href="{% url 'updresume' user.summary.pk %}" class="dropdown-item nav-link font-weight-bold"><span>Резюме</span></a>
             {% else %}
             <a href="{% url 'demos' %}" class="dropdown-item nav-link font-weight-bold"><span>Резюме</span></a>
             {% endif %}

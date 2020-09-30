@@ -169,7 +169,8 @@ class Application(models.Model):
 
     class Meta:
         ordering = ['written_username']
-
+        verbose_name = "Отклик"
+        verbose_name_plural = "Отклики"
 
 # ------------------ резюме ------------------
 # этот вариант не работает - выдает
@@ -242,6 +243,10 @@ class UserSummary(models.Model):
 
     def __str__(self):
         return ' '.join((self.first_name, self.last_name))
+
+    class Meta:
+        verbose_name = "Резюме"
+        verbose_name_plural = "Резюме"
 
 
 
