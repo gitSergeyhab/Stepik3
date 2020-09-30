@@ -5,6 +5,7 @@
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
+from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
@@ -209,8 +210,6 @@ class AddVacancy(CreateView):
     extra_context = {'title': title, }
 
 
-
-
 class UpdateVacancy(UpdateView):
     """ правка вакансии """
 
@@ -241,11 +240,12 @@ class Searcher(ListView):
     extra_context = {'title': title, 'skillist': skillist[:3]}
 
     def get_queryset(self):
-        return Vacancy.objects.filter(title__icontains=self.request.GET.get('sea'))
+        return Vacancy.objects.filter(
+            Q(title__icontains=self.request.GET.get('s')) | Q(description__icontains=self.request.GET.get('s')))
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['flag_search'] = self.request.GET.get('sea')
+        context['flag_search'] = self.request.GET.get('s')
         return context
 
 
@@ -263,7 +263,7 @@ class UpdUserResume(UpdateView):
     extra_context = {'title': title, }
 
 
-class DemoSummary(View):
+class DemoResume(View):
     """ окно при нажатии на "компания" в выпадающем меню зарег пользователя,
     у которого нет компании (ссылка на допввление компании) """
 
