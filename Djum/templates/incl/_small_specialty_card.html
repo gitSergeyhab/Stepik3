@@ -2,7 +2,17 @@
   <div class="col-6 col-md-6 col-lg-3">
     <div class="card pt-4 text-center mb-4">
       <a href="{{ ob.get_absolute_url }}" style="max-width: 150px;" class="mx-auto d-block">
+
+        {% if ob.picture %}
+        <img class="mx-auto d-block" src="{{ ob.picture.url }}" width="80" height="80" alt="">
+        {% else %}
+        <p>{{ ob.title }}</p>
+        {% endif %}
+
+        {% comment %}
         <img class="mx-auto d-block" src="../static/pics/specty_{{ ob.code }}.png" width="80" height="80" alt="">
+        {% endcomment %}
+
       </a>
       <div class="card-body">
         <p class="card-text mb-2">{{ ob.title }}</p>

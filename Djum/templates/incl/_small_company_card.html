@@ -7,10 +7,11 @@
       {% if com.logo %}
       <img class="mx-auto d-block mw-100" src="{{ com.logo.url }}" width="130" height="80" alt="">
       {% else %}
-      <img class="mx-auto d-block mw-100" src="../static/logs/logo{{com.id}}.png" alt="">
+      <h5>{{ com.name }}</h5>
       {% endif %}
       </a>
 
+{% comment %}<img class="mx-auto d-block mw-100" src="../static/logs/logo{{com.id}}.png" alt="">{% endcomment %}
 
       <div class="card-body">
 

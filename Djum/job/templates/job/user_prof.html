@@ -17,11 +17,16 @@
 <!--                  чтобы не было ошибок для юзеров без компаний-->
                 {% if user.company %}
                     <div class="col-12 col-md-10 col-lg-3 d-flex align-items-center">
-                     {% if user.company.logo %}
-                      <a class="px-3" href="{% url 'company' user.company.pk %}"><img src="{{ user.company.logo.url }}" width="130" height="80" alt=""></a>
-                    {% else %}
-                      <a class="px-3" href="{% url 'company' user.company.pk %}"><img src="../../static/logs/logo{{ user.company.pk }}.png" width="130" height="80" alt=""></a>
-                    {% endif %}
+
+                      <a class="px-3" href="{% url 'company' user.company.pk %}">
+                          {% if user.company.logo %}
+                          <img src="{{ user.company.logo.url }}" width="130" height="80" alt="">
+                            {% else %}
+                          <h4>{{ user.company.name }}</h4>
+                          {% endif %}
+                          </a>
+                      {% comment %}<a class="px-3" href="{% url 'company' user.company.pk %}"><img src="../../static/logs/logo{{ user.company.pk }}.png" width="130" height="80" alt=""></a> {% endcomment %}
+
                     </div>
                 {% endif %}
 
@@ -39,9 +44,8 @@
                   <p><b>О компании:</b> {% lorem 113 w random %}...</p>
                     {% endif %}
 
-                     {% if user.summary %}
-
-                    <section class="col-12 col-lg-6 offset-lg-3 mt-5 card">
+    {% if user.summary %}
+    <section class="col-12 col-lg-6 offset-lg-3 mt-5 card">
       <div class="card-body px-3 pb-4">
         <h1 class="h4 pt-2 pb-3">Мое резюме</h1>
           <div class="row">
@@ -53,7 +57,7 @@
 
             <div class="col-12 col-md-6">Фамилия
               <div class="form-group pb-2">
-{{ user.summary.last_name }}
+                {{ user.summary.last_name }}
               </div>
             </div>
           </div>
@@ -76,22 +80,18 @@
             <div class="col-12 col-md-6">Специализация
               <div class="form-group pb-2">
                   {{ user.summary.specialty }}
-
               </div>
             </div>
 
             <div class="col-12 col-md-6">Квалификация
               <div class="form-group pb-2">
                   {{ user.summary.level }}
-
               </div>
             </div>
           </div>
 
-
           <div class="form-group pb-2">Образование
-                        <p>{{ user.summary.education }}</p>
-
+            <p>{{ user.summary.education }}</p>
           </div>
 
           <div class="form-group pb-2">Опыт работы
@@ -99,16 +99,12 @@
           </div>
 
           <div class="form-group pb-3">Ссылка на портфолио
-       <p>{{ user.summary.portfolio }}</p>
-
+            <p>{{ user.summary.portfolio }}</p>
           </div>
 
       </div>
     </section>
-
-
-
-                     {% endif %}
+    {% endif %}
 
                  <div class="btn-toolbar justify-content-between">
                      {% if user.summary %}

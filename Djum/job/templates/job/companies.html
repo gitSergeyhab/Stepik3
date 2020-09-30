@@ -21,11 +21,15 @@
               <div class="row">
                 <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">
 
-                    {% if com.logo %}
-                      <a href="{{ com.get_absolute_url }}"><img src="{{ com.logo.url }}" width="130" height="80" alt=""></a>
+
+                      <a href="{{ com.get_absolute_url }}">
+                        {% if com.logo %}
+                        <img src="{{ com.logo.url }}" width="130" height="80" alt="">
                       {% else %}
-                      <a href="{{ com.get_absolute_url }}"><img src="../../static/logs/logo{{ com.pk }}.png" width="130" height="80" alt=""></a>
-                      {% endif %}
+                        <h5>{{ com.name }}</h5>
+                        {% endif %}</a>
+                      {% comment %}<a href="{{ com.get_absolute_url }}"><img src="../../static/logs/logo{{ com.pk }}.png" width="130" height="80" alt=""></a>{% endcomment %}
+
 
 
 

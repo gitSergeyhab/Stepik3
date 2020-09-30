@@ -26,7 +26,11 @@
             {% if vac.company.logo %}
             <a href="{{ vac.company.get_absolute_url }}"><img src="{{ vac.company.logo.url }}" width="130" height="80" alt=""></a>
             {% else %}
+            <a href="{{ vac.company.get_absolute_url }}"><h5>{{ vac.company.name }}</h5></a>
+            {% comment %}
+
             <a href="{{ vac.company.get_absolute_url }}"><img src="../../static/logs/logo{{ vac.company.pk }}.png" width="130" height="80" alt=""></a>
+            {% endcomment %}
             {% endif %}
 
         </div>

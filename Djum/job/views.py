@@ -104,7 +104,7 @@ class CreateApplication(CreateView):
         return context
 
 
-# ------------------- registrations -------------------
+# ------------------- регистрация и вход -------------------
 class MySignupView(CreateView):
     # form_class = UserCreationForm
     form_class = UserRegForm
@@ -113,14 +113,12 @@ class MySignupView(CreateView):
     extra_context = {'title': title, }
 
 
-# ------------------- registrations -------------------
-
 # class MyLoginView(LoginView):
 #     redirect_authenticated_user = True
 #     template_name = 'login.html'
 #     extra_context = {'title': title, }
 
-# !!! через класс красиво не получилось, а в функции с трудом понимаю, что вообще происходит
+# ???!!! через класс красиво не получилось, а в функции с трудом понимаю, что вообще происходит
 def my_login(request):
     if request.user.is_authenticated:
         return redirect('/')
@@ -135,16 +133,14 @@ def my_login(request):
     return render(request, 'login.html', {'form': form, 'title': title, })
 
 
-# ----------------------- user profile ----------------------------
-
-
+# ----------------------- добавление и редактирование компании ----------------------------
 class EditCompany(CreateView):
     form_class = AddComForm
     template_name = 'job/company-edit.html'
     extra_context = {'title': title, }
 
 
-# !!! не получается установить активного юзера по умолчаниб
+# !!! не получается установить активного юзера по умолчани
 class AddCompany(CreateView):
     """   добавление компании    """
     model = Company
@@ -179,6 +175,7 @@ class MyVacancies(ListView):
         return Vacancy.objects.filter(company__owner=self.request.user)
 
 
+# ----------------------- user profile ----------------------------
 class UserProf(DetailView):
     """ окно при нажатии на "компания" в выпадающем меню зарег пользователя,
     у которого нет компании (ссылка на допввление компании) """
@@ -203,6 +200,7 @@ class DemoComp(View):
         return render(request, 'job/my_demo_company.html', context={'title': title})
 
 
+# ----------------------- добавление и редактирование вакансии ----------------------------
 class AddVacancy(CreateView):
     model = Vacancy
     form_class = UpdVacForm
@@ -228,12 +226,13 @@ class UpdateVacancy(UpdateView):
         context['vac_pk'] = Application.objects.filter(vacancy__pk=self.kwargs['pk'])
         return context
 
-    # !!! по умолчанию выдает ошибку, потому решил сделать перенаправление хоть куда-нибудь
-    # !!! как работает    reverse()   не разобрался
+    # ???!!! по умолчанию выдает ошибку, потому решил сделать перенаправление хоть куда-нибудь
+    # ???!!! как работает    reverse()   не разобрался
     def get_success_url(self):
         return '/'
 
 
+# ----------------------- Поиск ----------------------------
 class Searcher(ListView):
     context_object_name = 'vacancies'
     template_name = 'job/searcher.html'
@@ -249,6 +248,7 @@ class Searcher(ListView):
         return context
 
 
+# ----------------------- добавление и редактирование резюме ----------------------------
 class AddUserResume(CreateView):
     model = UserSummary
     form_class = UpdSummaryForm
