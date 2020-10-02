@@ -1,5 +1,4 @@
 # from django.shortcuts import render
-# from django.views import View
 
 # Create your views here.
 from django.contrib.auth import login
@@ -96,6 +95,9 @@ class CreateApplication(CreateView):
     extra_context = {'title': title, }
     success_url = '/'
 
+    def get_queryset(self):
+        return Application.objects.filter(user=self.request.user)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['vacancy'] = Vacancy.objects.get(pk=self.kwargs['pk'])
@@ -155,6 +157,9 @@ class UpdateComp(UpdateView):
     form_class = AddComForm
     template_name = 'job/company-upd.html'
     extra_context = {'title': title, }
+
+    # def get_queryset(self):
+    #     return Company.objects.filter(owner=self.request.user)
 
 
 # !!! не получилось сделать нормальную ссылку после редактирования компании
