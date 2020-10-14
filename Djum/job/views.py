@@ -3,13 +3,11 @@
 # Create your views here.
 from django.contrib.auth import login
 from django.contrib.auth.models import User
-from django.contrib.auth.views import LoginView
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from django.contrib.auth.forms import UserCreationForm
 
 from .models import Specialty, Company, Vacancy, Application, UserResume
 from .data import skillist
@@ -32,23 +30,23 @@ class MainView(ListView):
         return context
 
 
-# – Вакансии по специализации /vacancies/cat/frontend
+# – Вакансии по специализации
 class ListVacSpecialtiesView(ListView):
     template_name = 'job/vacancies.html'
     context_object_name = 'vacancies'
     extra_context = {'title': title}
 
-    # !!! =self.kwargs['slug'] - украдено из интернотов и работает, но как именно - НЕ понимаю !!!
     def get_queryset(self):
         return Vacancy.objects.filter(specialty__slug=self.kwargs['slug'])
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['flag_specialty'] = Specialty.objects.filter(slug=self.kwargs['slug'])
+        context['flag_specialty'] = Specialty.objects.get(slug=self.kwargs['slug'])
+        # context['flag_specialty'] = Specialty.objects.filter(slug=self.kwargs['slug'])
         return context
 
 
-# – Все вакансии списком   /vacancies
+# – Все вакансии списком
 class ListVacanciesView(ListView):
     model = Vacancy
     context_object_name = 'vacancies'
@@ -57,7 +55,7 @@ class ListVacanciesView(ListView):
     # paginate_by = 8
 
 
-# – Одна вакансия /vacancies/22
+# – Одна вакансия
 class OneVacancyView(DetailView):
     model = Vacancy
     context_object_name = 'vacancy'
@@ -65,7 +63,7 @@ class OneVacancyView(DetailView):
     extra_context = {'title': title, }
 
 
-# – Карточка компании  /companies/345
+# – Карточка компании
 class CardCompanyView(ListView):
     template_name = 'job/vacancies.html'
     context_object_name = 'vacancies'
@@ -76,7 +74,8 @@ class CardCompanyView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['flag_company'] = Company.objects.filter(pk=self.kwargs['pk'])
+        context['flag_company'] = Company.objects.get(pk=self.kwargs['pk'])
+
         return context
 
 
@@ -102,7 +101,7 @@ class CreateApplicationView(View):
             'form': form,
             'vacancy': Vacancy.objects.get(pk=self.kwargs['pk']),
             'title': title,
-            'flag_appl': 1,
+            'flag_application': 1,
         })
 
     def post(self, request, pk):

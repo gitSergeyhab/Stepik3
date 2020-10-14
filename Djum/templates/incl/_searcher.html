@@ -12,7 +12,7 @@
 
       <p>Например:
         {% for skill in skillist %}
-            <a href="#" class="text-dark border-bottom border-dark m-1 text-decoration-none">{{ skill }}</a>
+            <a href="{% url 'searcher' %}?s={{ skill }}" class="text-dark border-bottom border-dark m-1 text-decoration-none">{{ skill }}</a>
         {% endfor %}
 
 

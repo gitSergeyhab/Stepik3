@@ -15,29 +15,26 @@
   <section>
       <div class="row mt-5">
         <div class="col-12 col-lg-8 offset-lg-2 m-auto">
-          {% for com in companies %}
+          {% for company in companies %}
           <div class="card mb-4">
             <div class="card-body px-4">
               <div class="row">
                 <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">
 
 
-                      <a href="{{ com.get_absolute_url }}">
-                        {% if com.logo %}
-                        <img src="{{ com.logo.url }}" width="130" height="80" alt="">
+                      <a href="{{ company.get_absolute_url }}">
+                        {% if company.logo %}
+                        <img src="{{ company.logo.url }}" width="130" height="80" alt="">
                       {% else %}
-                        <h5>{{ com.name }}</h5>
+                        <h5>{{ company.name }}</h5>
                         {% endif %}</a>
-                      {% comment %}<a href="{{ com.get_absolute_url }}"><img src="../../static/logs/logo{{ com.pk }}.png" width="130" height="80" alt=""></a>{% endcomment %}
-
 
 
 
                 </div>
                 <div class="col-12 col-md-8 col-lg-9">
-                  <a class="text-secondary" href="{{ com.get_absolute_url }}"><h2 class="h2 pb-2">{{ com.name|upper }}</h2></a>
-                  <p class="mb-2 bg-info">Город: {{ com.location }} | Штат: {{ com.employee_count }} человек</p>
-<!--                  <p>{{ com.description|truncatechars:'44' }}</p>-->
+                  <a class="text-secondary" href="{{ company.get_absolute_url }}"><h2 class="h2 pb-2">{{ company.name|upper }}</h2></a>
+                  <p class="mb-2 bg-info">Город: {{ company.location }} | Штат: {{ company.employee_count }} человек</p>
                   <p><b>О компании:</b> {% lorem 13 w random %}...</p>
                 </div>
 

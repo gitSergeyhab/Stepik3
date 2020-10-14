@@ -1,22 +1,18 @@
-{% for ob in main_specialty %}
+{% for specialty in main_specialty %}
   <div class="col-6 col-md-6 col-lg-3">
     <div class="card pt-4 text-center mb-4">
-      <a href="{{ ob.get_absolute_url }}" style="max-width: 150px;" class="mx-auto d-block">
+      <a href="{{ specialty.get_absolute_url }}" style="max-width: 150px;" class="mx-auto d-block">
 
-        {% if ob.picture %}
-        <img class="mx-auto d-block" src="{{ ob.picture.url }}" width="80" height="80" alt="">
+        {% if specialty.picture %}
+        <img class="mx-auto d-block" src="{{ specialty.picture.url }}" width="80" height="80" alt="">
         {% else %}
-        <p>{{ ob.title }}</p>
+        <p>{{ specialty.title }}</p>
         {% endif %}
-
-        {% comment %}
-        <img class="mx-auto d-block" src="../static/pics/specty_{{ ob.code }}.png" width="80" height="80" alt="">
-        {% endcomment %}
 
       </a>
       <div class="card-body">
-        <p class="card-text mb-2">{{ ob.title }}</p>
-        <p class="card-text"><a href="{{ ob.get_absolute_url }}">{{ ob.vacancies.all.count }} вакансий</a></p>
+        <p class="card-text mb-2">{{ specialty.title }}</p>
+        <p class="card-text"><a href="{{ specialty.get_absolute_url }}">{{ specialty.vacancies.all.count }} вакансий</a></p>
       </div>
     </div>
   </div>

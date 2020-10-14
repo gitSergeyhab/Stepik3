@@ -3,21 +3,9 @@
 
 {% block first_section %}
 
-
-
-
 <div class="row mt-5">
 
-{% include 'incl/_my_com.html' %}
-
-{% comment %}
-<!--<form action="" method="post">-->
-<!--{% csrf_token %}-->
-<!--{{ form.as_p }}-->
-<!--<button type="submit" class="btn btn-info">Сохранить</button>-->
-<!--</form>-->
-{% endcomment %}
-
+{% include 'incl/_my_company_sidebar.html' %}
 
 <div class="col-12 col-lg-8">
       <div class="col-12 col-lg-12">
@@ -26,7 +14,6 @@
             <!-- Tab -->
             <section>
               <h2 class="h4 pt-2 pb-3">{{ vac1 }} / {{vac1.level}}</h2>
-<!--              <p class="alert alert-info" role="alert">Вакансия обновлена</p>-->
               <form action="" method="post">
 
                {% csrf_token %}
@@ -48,9 +35,7 @@
 
                         <label class="mb-2 text-dark" for="{{ form.specialty.id_for_label }}">Специализация</label>
                         <p>{{ form.specialty }}</p>
-<!--                        <div class="invalid-feedback">-->
-<!--                        {{ form.specialty.errors}}-->
-<!--                        </div>-->
+
                     </div>
                   </div>
                 </div>
@@ -109,7 +94,5 @@
       </div>
     </div>
 </div>
-
-
 
 {% endblock %}
