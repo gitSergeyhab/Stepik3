@@ -11,10 +11,10 @@ from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Specialty, Company, Vacancy, Application, UserSummary
-from .models import skillist
+from .models import Specialty, Company, Vacancy, Application, UserResume
+from .data import skillist
 from random import shuffle
-from .forms import ApplicationForm, UserRegForm, UserAutForm, AddComForm, UpdVacForm, UpdSummaryForm
+from .forms import ApplicationForm, UserRegForm, UserAutForm, CompanyForm, VacancyForm, ResumeForm
 
 title = 'Джуманджи'
 shuffle(skillist)
@@ -33,7 +33,7 @@ class MainView(ListView):
 
 
 # – Вакансии по специализации /vacancies/cat/frontend
-class ListVacSpecialties(ListView):
+class ListVacSpecialtiesView(ListView):
     template_name = 'job/vacancies.html'
     context_object_name = 'vacancies'
     extra_context = {'title': title}
@@ -49,7 +49,7 @@ class ListVacSpecialties(ListView):
 
 
 # – Все вакансии списком   /vacancies
-class ListVacancies(ListView):
+class ListVacanciesView(ListView):
     model = Vacancy
     context_object_name = 'vacancies'
     template_name = 'job/vacancies.html'
@@ -58,7 +58,7 @@ class ListVacancies(ListView):
 
 
 # – Одна вакансия /vacancies/22
-class OneVacancy(DetailView):
+class OneVacancyView(DetailView):
     model = Vacancy
     context_object_name = 'vacancy'
     template_name = 'job/vacancy.html'
@@ -66,7 +66,7 @@ class OneVacancy(DetailView):
 
 
 # – Карточка компании  /companies/345
-class CardCompany(ListView):
+class CardCompanyView(ListView):
     template_name = 'job/vacancies.html'
     context_object_name = 'vacancies'
     extra_context = {'title': title}
@@ -80,7 +80,7 @@ class CardCompany(ListView):
         return context
 
 
-class Companies(ListView):
+class CompaniesView(ListView):
     model = Company
     template_name = 'job/companies.html'
     context_object_name = 'companies'
@@ -89,36 +89,37 @@ class Companies(ListView):
 
 # ----------------------- 4 week --------------------
 
-class CreateApplication(CreateView):
-    form_class = ApplicationForm
-    template_name = 'job/vacancy.html'
-    extra_context = {'title': title, }
-    success_url = '/'
+class CreateApplicationView(View):
 
-    def get_queryset(self):
-        return Application.objects.filter(user=self.request.user)
+    def get(self, request, pk):
+        form = ApplicationForm()
+        form.fields['vacancy'].queryset = Vacancy.objects.filter(pk=pk)
+        form.fields['vacancy'].initial = Vacancy.objects.get(pk=pk)
+        form.fields['user'].queryset = User.objects.filter(pk=request.user.pk)
+        form.fields['user'].initial = User.objects.get(pk=request.user.pk)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['vacancy'] = Vacancy.objects.get(pk=self.kwargs['pk'])
-        context['application'] = Application.objects.all()
+        return render(request, 'job/vacancy.html', context={
+            'form': form,
+            'vacancy': Vacancy.objects.get(pk=self.kwargs['pk']),
+            'title': title,
+            'flag_appl': 1,
+        })
 
-        return context
+    def post(self, request, pk):
+        form = ApplicationForm(request.POST)
+        if form.is_valid():
+            new_appl = form.save()
+            return redirect('sent', pk)
+        return render(request, 'job/vacancy.html', context={'form': form, })
 
 
 # ------------------- регистрация и вход -------------------
 class MySignupView(CreateView):
-    # form_class = UserCreationForm
     form_class = UserRegForm
     success_url = 'login'
     template_name = 'signup.html'
     extra_context = {'title': title, }
 
-
-# class MyLoginView(LoginView):
-#     redirect_authenticated_user = True
-#     template_name = 'login.html'
-#     extra_context = {'title': title, }
 
 # ???!!! через класс красиво не получилось, а в функции с трудом понимаю, что вообще происходит
 def my_login(request):
@@ -136,39 +137,30 @@ def my_login(request):
 
 
 # ----------------------- добавление и редактирование компании ----------------------------
-class EditCompany(CreateView):
-    form_class = AddComForm
-    template_name = 'job/company-edit.html'
-    extra_context = {'title': title, }
+class AddCompanyView(View):
+
+    def get(self, request):
+        form = CompanyForm()
+        form.fields['owner'].initial = request.user
+        return render(request, 'job/company-edit.html', context={'form': form, 'title': title, })
+
+    def post(self, request):
+        form = CompanyForm(request.POST)
+        if form.is_valid():
+            new_company = form.save()
+            return redirect(new_company)
+        return render(request, 'job/company-edit.html', context={'title': title, 'form': form, })
 
 
-# !!! не получается установить активного юзера по умолчани
-class AddCompany(CreateView):
-    """   добавление компании    """
-    model = Company
-    form_class = AddComForm
-    template_name = 'job/company-edit.html'
-    extra_context = {'title': title, }
-
-
-class UpdateComp(UpdateView):
+class UpdateCompanyView(UpdateView):
     """   редактирование компании    """
     model = Company
-    form_class = AddComForm
+    form_class = CompanyForm
     template_name = 'job/company-upd.html'
     extra_context = {'title': title, }
 
-    # def get_queryset(self):
-    #     return Company.objects.filter(owner=self.request.user)
 
-
-# !!! не получилось сделать нормальную ссылку после редактирования компании
-# - почему-то выкидывает на список вакансий по компаниям   /company/x
-# def get_success_url(self):
-#     return reverse('companies')
-
-
-class MyVacancies(ListView):
+class MyVacanciesView(ListView):
     """ лист вакансий компаний аутифиц. пользователя с компанией """
     # раз есть get_queryset   model = Vacancy    можно удалить
     model = Vacancy
@@ -181,7 +173,7 @@ class MyVacancies(ListView):
 
 
 # ----------------------- user profile ----------------------------
-class UserProf(DetailView):
+class UserProfileView(DetailView):
     """ окно при нажатии на "компания" в выпадающем меню зарег пользователя,
     у которого нет компании (ссылка на допввление компании) """
     model = User
@@ -190,14 +182,9 @@ class UserProf(DetailView):
     context_object_name = 'curuser'
     extra_context = {'title': title}
 
-    # сет всех юзеров  --  не используется - можно удалить:
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['allus'] = User.objects.all
-        return context
 
 
-class DemoComp(View):
+class DemoCompView(View):
     """ окно при нажатии на "компания" в выпадающем меню зарег пользователя,
     у которого нет компании (ссылка на допввление компании) """
 
@@ -206,39 +193,43 @@ class DemoComp(View):
 
 
 # ----------------------- добавление и редактирование вакансии ----------------------------
-class AddVacancy(CreateView):
-    model = Vacancy
-    form_class = UpdVacForm
-    template_name = 'job/vacancy-add.html'
-    extra_context = {'title': title, }
+class AddVacancyView(View):
+
+    def get(self, request):
+        form = VacancyForm()
+        # оставляет селект с 1-пунктом (без initial по умолчанию выбирается: ---------):
+        form.fields['company'].queryset = Company.objects.filter(owner__pk=request.user.pk)
+        # делает это пункт выбранным (без queryset остается возможность выбора из всего списка)
+        form.fields['company'].initial = Company.objects.get(owner__pk=request.user.pk)
+
+        # form = UpdVacForm(initial={'company': Company.objects.get(owner__pk=request.user.pk)})
+        return render(request, 'job/vacancy-add.html', context={'title': title, 'form': form})
+
+    def post(self, request):
+        form = VacancyForm(request.POST)
+        if form.is_valid():
+            new_vacancy = form.save()
+            return redirect(new_vacancy)
+        return render(request, 'job/vacancy-add.html', context={'title': title, 'form': form})
 
 
-class UpdateVacancy(UpdateView):
+
+class UpdateVacancyView(UpdateView):
     """ правка вакансии """
-
-    form_class = UpdVacForm
-
-    template_name = 'job/vacancy-edit.html'
-    extra_context = {'title': title, }
-
-    # забираем только вакансии от компании юзера:
-    def get_queryset(self):
-        return Vacancy.objects.filter(company__owner=self.request.user)
+    model = Vacancy
+    form_class = VacancyForm
+    template_name = 'job/vacancy-upd.html'
+    extra_context = {'title': title,}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['vac1'] = Vacancy.objects.get(pk=self.kwargs['pk'])
-        context['vac_pk'] = Application.objects.filter(vacancy__pk=self.kwargs['pk'])
+        context['the_vacancy'] = Vacancy.objects.get(pk=self.kwargs['pk'])
         return context
 
-    # ???!!! по умолчанию выдает ошибку, потому решил сделать перенаправление хоть куда-нибудь
-    # ???!!! как работает    reverse()   не разобрался
-    def get_success_url(self):
-        return '/'
 
 
 # ----------------------- Поиск ----------------------------
-class Searcher(ListView):
+class SearcherView(ListView):
     context_object_name = 'vacancies'
     template_name = 'job/searcher.html'
     extra_context = {'title': title, 'skillist': skillist[:3]}
@@ -254,23 +245,47 @@ class Searcher(ListView):
 
 
 # ----------------------- добавление и редактирование резюме ----------------------------
-class AddUserResume(CreateView):
-    model = UserSummary
-    form_class = UpdSummaryForm
-    template_name = 'job/resume-edit.html'
-    extra_context = {'title': title, }
+class AddUserResumeView(View):
+    def get(self, request):
+        form = ResumeForm()
+        form.fields['user'].initial = request.user
+
+        return render(request, 'job/resume-edit.html', context={'form': form, 'title': title})
+    def post(self, request):
+        form = ResumeForm(request.POST)
+        if form.is_valid():
+            new_resume = form.save()
+            return redirect('profile', request.user.pk)
+        return render(request, 'job/resume-edit.html', context={'form': form, 'title': title})
 
 
-class UpdUserResume(UpdateView):
-    model = UserSummary
-    form_class = UpdSummaryForm
-    template_name = 'job/resume-edit.html'
-    extra_context = {'title': title, }
+class UpdUserResumeView(View):
+    def get(self, request, pk):
+        resume = UserResume.objects.get(pk=pk)
+        form = ResumeForm(instance=resume)
+        return render(request, 'job/resume-edit.html', context={'form': form, 'title': title})
+
+    def post(self, request, pk):
+        resume = UserResume.objects.get(pk=pk)
+        form = ResumeForm(request.POST, instance=resume)
+        if form.is_valid():
+            resume = form.save()
+            return redirect('profile', request.user.pk)
+        return render(request, 'job/resume-edit.html', context={'form': form, 'title': title})
 
 
-class DemoResume(View):
+class DemoResumeView(View):
     """ окно при нажатии на "компания" в выпадающем меню зарег пользователя,
     у которого нет компании (ссылка на допввление компании) """
-
     def get(self, request, *args, **kwargs):
         return render(request, 'job/resume-create.html', context={'title': title})
+
+class SentView1(View):
+    def get(self, request,pk):
+        return render(request, 'job/sent.html', context={'title': title})
+
+class SentView(DetailView):
+    model = Vacancy
+    context_object_name = 'vacancy'
+    template_name = 'job/sent.html'
+    extra_context = {'title': title, }

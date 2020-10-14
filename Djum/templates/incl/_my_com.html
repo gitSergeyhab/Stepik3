@@ -3,16 +3,14 @@
   <h1 class="h4 pt-2 pb-2">Моя компания</h1>
   <div class="nav flex-column nav-pills">
 
-<!--    !!! не полуилось прописать активные ссылки -->
-
-<!--                  если у юзера есть компания - ссылка на редактировние
-если нет - ссылка на добавление-->
     {% if request.user.company %}
-    <a class="nav-link" href="{% url 'update_comp' request.user.company.pk %}">1. Информация о&nbsp;компании</a>
-    {% else %}
-    <a class="nav-link" href="{% url 'addmycompany' %}">1. Добавить компанию</a>
-    {% endif %}
+    <a class="nav-link" href="{% url 'update_comp' request.user.company.pk %}">1. Информация о компании</a>
     <a class="nav-link" href="{% url 'myvacancies' %}">2. Вакансии</a>
+    {% else %}
+    <a class="nav-link" href="{% url 'addmycompany' %}">Добавить компанию</a>
+    {% endif %}
+
+
   </div>
 </aside>
 </div>

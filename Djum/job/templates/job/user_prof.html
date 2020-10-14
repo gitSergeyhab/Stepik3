@@ -44,20 +44,20 @@
                   <p><b>О компании:</b> {% lorem 113 w random %}...</p>
                     {% endif %}
 
-    {% if user.summary %}
+    {% if user.resume %}
     <section class="col-12 col-lg-6 offset-lg-3 mt-5 card">
       <div class="card-body px-3 pb-4">
         <h1 class="h4 pt-2 pb-3">Мое резюме</h1>
           <div class="row">
             <div class="col-12 col-md-6">Имя
               <div class="form-group pb-2">
-                  {{ user.summary.first_name }}
+                  {{ user.resume.first_name }}
               </div>
             </div>
 
             <div class="col-12 col-md-6">Фамилия
               <div class="form-group pb-2">
-                {{ user.summary.last_name }}
+                {{ user.resume.last_name }}
               </div>
             </div>
           </div>
@@ -65,13 +65,13 @@
           <div class="row">
             <div class="col-12 col-md-6">Готовность
               <div class="form-group pb-2">
-                  {{ user.summary.readiness }}
+                  {{ user.resume.readiness }}
               </div>
             </div>
 
             <div class="col-12 col-md-6">
               <div class="form-group pb-2">Ожидаемое вознаграждение
-                  <p>{{ user.summary.salary }}</p>
+                  <p>{{ user.resume.salary }}</p>
               </div>
             </div>
           </div>
@@ -79,27 +79,27 @@
           <div class="row">
             <div class="col-12 col-md-6">Специализация
               <div class="form-group pb-2">
-                  {{ user.summary.specialty }}
+                  {{ user.resume.specialty }}
               </div>
             </div>
 
             <div class="col-12 col-md-6">Квалификация
               <div class="form-group pb-2">
-                  {{ user.summary.level }}
+                  {{ user.resume.level }}
               </div>
             </div>
           </div>
 
           <div class="form-group pb-2">Образование
-            <p>{{ user.summary.education }}</p>
+            <p>{{ user.resume.education }}</p>
           </div>
 
           <div class="form-group pb-2">Опыт работы
-            <p>{{ user.summary.experience }}</p>
+            <p>{{ user.resume.experience }}</p>
           </div>
 
           <div class="form-group pb-3">Ссылка на портфолио
-            <p>{{ user.summary.portfolio }}</p>
+            <p>{{ user.resume.portfolio }}</p>
           </div>
 
       </div>
@@ -107,7 +107,7 @@
     {% endif %}
 
                  <div class="btn-toolbar justify-content-between">
-                     {% if user.summary %}
+                     {% if user.resume %}
                   <a class=" btn-group" href="{% url 'updresume' user.pk %}"><input type="button" class="btn btn-primary btn-sm"  value='редактировать резюме'></a>
                      {% else %}
                  <a class=" btn-group" href="{% url 'myresume' %}"><input type="button" class="btn btn-primary btn-sm"  value='создать резюме'></a>

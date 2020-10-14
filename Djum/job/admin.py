@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Specialty, Company, Vacancy, Application, UserSummary
+from .models import Specialty, Company, Vacancy, Application, UserResume
 
 
 
@@ -32,7 +32,7 @@ class ApplicationAdmin(admin.ModelAdmin):
     list_filter = ['vacancy']
 
 
-class UserSummaryAdmin(admin.ModelAdmin):
+class UserResumeAdmin(admin.ModelAdmin):
     list_display = ['first_name', 'last_name', 'readiness', 'salary', 'specialty',
                     'level', 'education', 'user']
     list_display_links = ['user']
@@ -45,4 +45,4 @@ admin.site.register(Specialty, SpecialtyAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Vacancy, VacancyAdmin)
 admin.site.register(Application, ApplicationAdmin)
-admin.site.register(UserSummary, UserSummaryAdmin)
+admin.site.register(UserResume, UserResumeAdmin)

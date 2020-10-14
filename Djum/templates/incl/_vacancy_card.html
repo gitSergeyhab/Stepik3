@@ -16,7 +16,7 @@
            {% endcomment %}
 
 
-          <a href="{% url 'application' vac.pk  %}"><h2 class="h2 pb-2 text-secondary">{{ vac.title }}</h2></a>
+          <a href="{{ vac.get_absolute_url }}"><h2 class="h2 pb-2 text-secondary">{{ vac.title }}</h2></a>
           <p class="mb-2"><a class="text-secondary" href="{{ vac.specialty.get_absolute_url }}">{{ vac.specialty.title }}</a> • {{ vac.level }} • {{ vac.skills }}</p>
           <p>От {{ vac.salary_min }} до {{ vac.salary_max }} руб.</p>
           <p class="text-muted pt-1">{{ vac.published_at }}</p>

@@ -2,13 +2,15 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Application, Company, Vacancy, UserSummary
+from .models import Application, Company, Vacancy, UserResume
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
 
 # --------------- форма добавления отклика на вакансию -----------------------
 class ApplicationForm(forms.ModelForm):
+    user = forms.ModelChoiceField(empty_label=None, queryset=User.objects.all())
+    vacancy = forms.ModelChoiceField(empty_label=None, queryset=Vacancy.objects.all())
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -21,14 +23,15 @@ class ApplicationForm(forms.ModelForm):
         model = Application
         fields = ['written_username', 'written_phone', 'written_cover_letter', 'vacancy', 'user']
 
-        #  c {% crispy form "bootstrap4" %} в шаблоне это уже не нужно!!!
-        # widgets = {
-        #     'written_username': forms.TextInput(attrs={'class': 'form-control'}),
-        #     'written_phone': forms.TextInput(attrs={'class': 'form-control'}),
-        #     'written_cover_letter': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, }),
-        #     'vacancy': forms.Select(attrs={'class': 'form-control'}),
-        #     'user': forms.Select(attrs={'class': 'mb-3 form-control'}),
-        # }
+         # c {% crispy form "bootstrap4" %} в шаблоне это уже не нужно!!!
+        widgets = {
+            'written_username': forms.TextInput(attrs={'class': 'form-control'}),
+            'written_phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'written_cover_letter': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, }),
+            'vacancy': forms.Select(attrs={'class': 'form-control'}),
+            'user': forms.Select(attrs={'class': 'mb-3 form-control'}),
+
+        }
 
 
 # --------------- форма регистрации -----------------------
@@ -55,15 +58,9 @@ class UserAutForm(AuthenticationForm):
 
 
 # --------------- изменение компании --------------------
-class AddComForm(forms.ModelForm):
+class CompanyForm(forms.ModelForm):
     """ форма для добавления и изменения Карточки компании """
-
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #
-    #     self.helper = FormHelper()
-    #     self.helper.form_method = 'post'
-    #     self.helper.add_input(Submit('submit', 'Сохранить'))
+    owner = forms.ModelChoiceField(empty_label=None, queryset=User.objects.all())
 
     class Meta:
         model = Company
@@ -73,31 +70,22 @@ class AddComForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'location': forms.TextInput(attrs={'class': 'form-control'}),
-
-            # 'logo': forms.ImageField(),
-            # 'employee_count': forms.IntegerField(),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, }),
         }
 
 
 
 # --------------- изменение вакансии --------------------
-# class UpdVacForm(forms.ModelForm):
-#     class Meta:
-#         model = Vacancy
-#         fields = ['title', 'specialty', 'salary_min', 'salary_max', 'skills', 'description']
-#
-#         widgets = {
-#             'title': forms.TextInput(attrs={'class': 'form-control'}),
-#             'specialty': forms.Select(attrs={'class': 'form-control'}),
-#             'skills': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, }),
-#             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, }),
-#         }
 
+class VacancyForm(forms.ModelForm):
 
-class UpdVacForm(forms.ModelForm):
+    # company = forms.CharField(
+    #     widget=forms.TextInput(attrs={'readonly': 'readonly', 'class': 'form-control'})
+    # )
+
     class Meta:
         model = Vacancy
+
         fields = ['title', 'company', 'specialty', 'level', 'salary_min', 'salary_max', 'skills', 'description']
 
         widgets = {
@@ -107,12 +95,13 @@ class UpdVacForm(forms.ModelForm):
             'level': forms.TextInput(attrs={'class': 'form-control'}),
             'skills': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, }),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, }),
+            'salary_min': forms.NumberInput(attrs={'class': 'form-control'}),
+            'salary_max': forms.NumberInput(attrs={'class': 'form-control'})
         }
 
-class UpdSummaryForm(forms.ModelForm):
+class ResumeForm(forms.ModelForm):
     class Meta:
-        model = UserSummary
-        # fields = '__all__'
+        model = UserResume
         fields = ['first_name', 'last_name', 'readiness', 'salary', 'specialty',
                   'level', 'education', 'experience', 'portfolio', 'user']
 
@@ -123,7 +112,8 @@ class UpdSummaryForm(forms.ModelForm):
             'level': forms.Select(attrs={'class': 'form-control'}),
             'specialty': forms.Select(attrs={'class': 'form-control'}),
             'education': forms.Select(attrs={'class': 'form-control'}),
-            # 'salary': forms.TextInput(attrs={'class': 'form-control'}),
+            'salary': forms.NumberInput(attrs={'class': 'form-control'}),
             'experience': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, }),
             'portfolio': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, }),
+            'user': forms.HiddenInput(),
         }

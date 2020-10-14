@@ -15,36 +15,36 @@ Including another URLconf
 """
 from django.contrib.auth.views import LogoutView
 from django.urls import path
-from job.views import MainView, ListVacancies, CardCompany, ListVacSpecialties, Companies, OneVacancy, \
-    CreateApplication, MySignupView, my_login, EditCompany, MyVacancies, UpdateComp, AddCompany, UserProf, \
-    DemoComp, DemoResume, AddVacancy, UpdateVacancy, Searcher, AddUserResume, UpdUserResume
+from job.views import MainView, ListVacanciesView, CardCompanyView, ListVacSpecialtiesView, CompaniesView, \
+    OneVacancyView, CreateApplicationView, MySignupView, my_login, MyVacanciesView, UpdateCompanyView,\
+    AddCompanyView, UserProfileView, DemoCompView, DemoResumeView, AddVacancyView, UpdateVacancyView, \
+    SearcherView, AddUserResumeView, UpdUserResumeView, SentView
 
 urlpatterns = [
     path('', MainView.as_view(), name='main'),
-    path('vacancies/', ListVacancies.as_view(), name='vacancies'),
-    path('company/', Companies.as_view(), name='companies'),
-    path('company/<int:pk>', CardCompany.as_view(), name='company'),
-    path('vacancies/cat/<str:slug>', ListVacSpecialties.as_view(), name='specialties'),
-    path('vacancies/<int:pk>', OneVacancy.as_view(), name='vacancy'),
-    path('vacancies/<int:pk>/send/', CreateApplication.as_view(), name='application'),
-    path('addmycompany/', AddCompany.as_view(), name='addmycompany'),
-    path('mycompany/', EditCompany.as_view(), name='mycompany'),
-    path('mycompany/<int:pk>', UpdateComp.as_view(), name='update_comp'),
-    path('mycompany/vacancies/', MyVacancies.as_view(), name='myvacancies'),
-    path('profile/<int:pk>', UserProf.as_view(), name='profile'),
-    path('demo/', DemoComp.as_view(), name='demo'),
-    path('demos/', DemoResume.as_view(), name='demos'),
-    path('mycompany/vacancies/add/', AddVacancy.as_view(), name='add_vac'),
-    path('mycompany/vacancies/<int:pk>', UpdateVacancy.as_view(), name='update_vac'),
-    path('search/', Searcher.as_view(), name='searcher'),
-    path('myresume/', AddUserResume.as_view(), name='myresume'),
-    path('myresume/<int:pk>', UpdUserResume.as_view(), name='updresume'),
+    path('vacancies/', ListVacanciesView.as_view(), name='vacancies'),
+    path('company/', CompaniesView.as_view(), name='companies'),
+    path('companies/<int:pk>/', CardCompanyView.as_view(), name='company'),
+    path('vacancies/cat/<str:slug>/', ListVacSpecialtiesView.as_view(), name='specialties'),
+    path('vacancies/<int:pk>/', OneVacancyView.as_view(), name='vacancy'),
+    path('vacancies/<int:pk>/send/', CreateApplicationView.as_view(), name='application'),
+    path('addmycompany/', AddCompanyView.as_view(), name='addmycompany'),
+    path('mycompany/<int:pk>', UpdateCompanyView.as_view(), name='update_comp'),
+    path('mycompany/vacancies/', MyVacanciesView.as_view(), name='myvacancies'),
+    path('profile/<int:pk>', UserProfileView.as_view(), name='profile'),
+    path('demo_comp/', DemoCompView.as_view(), name='demo_comp'),
+    path('demo_resume/', DemoResumeView.as_view(), name='demo_resume'),
+    path('mycompany/vacancies/add/', AddVacancyView.as_view(), name='add_vac'),
+    path('mycompany/vacancies/<int:pk>', UpdateVacancyView.as_view(), name='update_vac'),
+    path('search/', SearcherView.as_view(), name='searcher'),
+    path('myresume/', AddUserResumeView.as_view(), name='myresume'),
+    path('myresume/<int:pk>', UpdUserResumeView.as_view(), name='updresume'),
+    path('<int:pk>/sent/', SentView.as_view(), name='sent'),
 
 ]
 
 urlpatterns += [
     path('login', my_login, name='login'),
-    # path('login', MyLoginView.as_view(), name='login'),
     path('logout', LogoutView.as_view(), name='logout'),
     path('signup', MySignupView.as_view(), name='signup'),
 ]
