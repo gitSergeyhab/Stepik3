@@ -154,6 +154,7 @@ class AddCompanyView(View):
 class UpdateCompanyView(UpdateView):
     """   редактирование компании    """
     model = Company
+    # context_object_name = 'company'
     form_class = CompanyForm
     template_name = 'job/company-upd.html'
     extra_context = {'title': title, }

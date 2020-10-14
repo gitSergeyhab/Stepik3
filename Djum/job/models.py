@@ -11,7 +11,8 @@ from .utils import skill_maker, usermakerX
 class Company(models.Model):
     name = models.CharField(max_length=32, verbose_name="Компания", unique=True)
     location = models.CharField(max_length=32, verbose_name="Город", blank=True)
-    logo = models.ImageField(verbose_name="Логотип", upload_to="logs/%Y/%m/%d/", blank=True)
+    # logo = models.ImageField(verbose_name="Логотип", upload_to="logs/%Y/%m/%d/", blank=True)
+    logo = models.ImageField(verbose_name="Логотип", upload_to="MEDIA_COMPANY_IMAGE_DIR", blank=True)
     description = models.TextField(verbose_name="Информация о компании", blank=True)
     employee_count = models.IntegerField(verbose_name="Количество сотрудников", null=True, blank=True)
     owner = models.OneToOneField(User, related_name="company", on_delete=models.CASCADE)
@@ -31,7 +32,8 @@ class Specialty(models.Model):
     code = models.CharField(max_length=32, verbose_name="Код", unique=True)
     slug = models.SlugField(unique=True)
     title = models.CharField(max_length=32, verbose_name="Специализация")
-    picture = models.ImageField(verbose_name="Картинка", upload_to="pics/%Y/%m/%d/", blank=True)
+    # picture = models.ImageField(verbose_name="Картинка", upload_to="pics/%Y/%m/%d/", blank=True)
+    picture = models.ImageField(verbose_name="Картинка", upload_to="MEDIA_SPECIALITY_IMAGE_DIR", blank=True)
 
     def get_absolute_url(self):
         return reverse('specialties', kwargs={'slug': self.slug})

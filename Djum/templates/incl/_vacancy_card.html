@@ -12,7 +12,7 @@
         </div>
         <div class="col-12 col-md-4 col-lg-3 d-flex align-items-end">
 
-            {% if vac.company.logo %}
+            {% if vacancy.company.logo %}
             <a href="{{ vacancy.company.get_absolute_url }}"><img src="{{ vacancy.company.logo.url }}" width="130" height="80" alt=""></a>
             {% else %}
             <a href="{{ vacancy.company.get_absolute_url }}"><h5>{{ vacancy.company.name }}</h5></a>

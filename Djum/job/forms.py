@@ -66,11 +66,11 @@ class CompanyForm(forms.ModelForm):
         model = Company
         fields = ['name', 'logo', 'employee_count', 'location', 'description', 'owner']
 
-        # !!! не разобрался как работают виджеты для  ImageField  и  IntegerField
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'location': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, }),
+            'picture': forms.ImageField()
         }
 
 
