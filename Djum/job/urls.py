@@ -18,7 +18,7 @@ from django.urls import path
 from job.views import MainView, ListVacanciesView, CardCompanyView, ListVacSpecialtiesView, CompaniesView, \
     OneVacancyView, CreateApplicationView, MySignupView, my_login, MyVacanciesView, UpdateCompanyView,\
     AddCompanyView, UserProfileView, DemoCompView, DemoResumeView, AddVacancyView, UpdateVacancyView, \
-    SearcherView, AddUserResumeView, UpdUserResumeView, SentView
+    SearcherView, AddUserResumeView, UpdUserResumeView, SentView, About
 
 urlpatterns = [
     path('', MainView.as_view(), name='main'),
@@ -40,6 +40,7 @@ urlpatterns = [
     path('myresume/', AddUserResumeView.as_view(), name='myresume'),
     path('myresume/<int:pk>', UpdUserResumeView.as_view(), name='updresume'),
     path('<int:pk>/sent/', SentView.as_view(), name='sent'),
+    path('about/', About.as_view(), name='about')
 
 ]
 

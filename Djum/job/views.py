@@ -35,6 +35,7 @@ class ListVacSpecialtiesView(ListView):
     template_name = 'job/vacancies.html'
     context_object_name = 'vacancies'
     extra_context = {'title': title}
+    paginate_by = 8
 
     def get_queryset(self):
         return Vacancy.objects.filter(specialty__slug=self.kwargs['slug'])
@@ -42,7 +43,10 @@ class ListVacSpecialtiesView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['flag_specialty'] = Specialty.objects.get(slug=self.kwargs['slug'])
-        # context['flag_specialty'] = Specialty.objects.filter(slug=self.kwargs['slug'])
+        context['number_vacancies'] = Vacancy.objects.filter(specialty__slug=self.kwargs['slug']).count()
+
+        # context['flag_specialty'] = Specialty.objects.get(slug=self.kwargs['slug'])
+        # context['number_vacancies'] = Vacancy.objects.filter(specialty__slug=self.kwargs['slug']).count()
         return context
 
 
@@ -51,8 +55,11 @@ class ListVacanciesView(ListView):
     model = Vacancy
     context_object_name = 'vacancies'
     template_name = 'job/vacancies.html'
-    extra_context = {'title': title}
-    # paginate_by = 8
+    extra_context = {
+        'title': title,
+        'number_vacancies': Vacancy.objects.count()
+    }
+    paginate_by = 8
 
 
 # – Одна вакансия
@@ -83,7 +90,10 @@ class CompaniesView(ListView):
     model = Company
     template_name = 'job/companies.html'
     context_object_name = 'companies'
-    extra_context = {'title': title, }
+    extra_context = {
+        'title': title,
+    }
+    paginate_by = 8
 
 
 # ----------------------- 4 week --------------------
@@ -92,14 +102,12 @@ class CreateApplicationView(View):
 
     def get(self, request, pk):
         form = ApplicationForm()
-        form.fields['vacancy'].queryset = Vacancy.objects.filter(pk=pk)
         form.fields['vacancy'].initial = Vacancy.objects.get(pk=pk)
-        form.fields['user'].queryset = User.objects.filter(pk=request.user.pk)
         form.fields['user'].initial = User.objects.get(pk=request.user.pk)
 
         return render(request, 'job/vacancy.html', context={
             'form': form,
-            'vacancy': Vacancy.objects.get(pk=self.kwargs['pk']),
+            'vacancy': Vacancy.objects.get(pk=pk),
             'title': title,
             'flag_application': 1,
         })
@@ -280,12 +288,14 @@ class DemoResumeView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'job/resume-create.html', context={'title': title})
 
-class SentView1(View):
-    def get(self, request,pk):
-        return render(request, 'job/sent.html', context={'title': title})
 
 class SentView(DetailView):
     model = Vacancy
     context_object_name = 'vacancy'
     template_name = 'job/sent.html'
     extra_context = {'title': title, }
+
+
+class About(View):
+    def get(self, request):
+        return render(request, 'job/about.html',  context={'title': title})
