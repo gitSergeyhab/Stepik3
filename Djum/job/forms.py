@@ -114,6 +114,6 @@ class ResumeForm(forms.ModelForm):
             'education': forms.Select(attrs={'class': 'form-control'}),
             'salary': forms.NumberInput(attrs={'class': 'form-control'}),
             'experience': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, }),
-            'portfolio': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, }),
+            'portfolio': forms.Textarea(attrs={'class': 'form-control', 'rows': 1, }),
             'user': forms.HiddenInput(),
         }

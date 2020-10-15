@@ -5,7 +5,7 @@ from django.urls import reverse
 from .data import jobs, companies, cities, specialties, level
 from django.contrib.auth.models import User
 from random import choice, shuffle
-from .utils import skill_maker, usermakerX
+from .utils import skill_maker, user_maker
 
 
 class Company(models.Model):
@@ -146,7 +146,7 @@ def random_database():
 
     if User.objects.count() < num_users:
         for i in range(num_users):
-            name, mail, password = usermakerX(i)
+            name, mail, password = user_maker(i)
             User.objects.create_user(username=name, email=mail, password=password)
 
     c = 0

@@ -41,7 +41,12 @@
                   {% if user.company %}
                   <h4 class="h4 pb-2 bg-info">Компания: {{ user.company|upper }}</h4><br>
                  <h5 class="h5 pb-2 ">{{ user.company.employee_count }} работника(ов) , город {{ user.company.location }}</h5>
-                  <p><b>О компании:</b> {% lorem 113 w random %}...</p>
+                  <p><b>О компании:</b>
+                        {% if user.company.description %}
+                        {{ user.company.description }}
+                        {% else %}
+                        {% lorem 113 w random %}...
+                        {% endif %}</p>
                     {% endif %}
 
     {% if user.resume %}

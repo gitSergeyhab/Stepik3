@@ -40,7 +40,7 @@ urlpatterns = [
     path('myresume/', AddUserResumeView.as_view(), name='myresume'),
     path('myresume/<int:pk>', UpdUserResumeView.as_view(), name='updresume'),
     path('<int:pk>/sent/', SentView.as_view(), name='sent'),
-    path('about/', About.as_view(), name='about')
+    path('about/', About.as_view(), name='about'),
 
 ]
 
