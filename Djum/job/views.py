@@ -1,11 +1,8 @@
-# from django.shortcuts import render
 
-# Create your views here.
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import redirect, render
-from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
@@ -44,9 +41,6 @@ class ListVacSpecialtiesView(ListView):
         context = super().get_context_data(**kwargs)
         context['flag_specialty'] = Specialty.objects.get(slug=self.kwargs['slug'])
         context['number_vacancies'] = Vacancy.objects.filter(specialty__slug=self.kwargs['slug']).count()
-
-        # context['flag_specialty'] = Specialty.objects.get(slug=self.kwargs['slug'])
-        # context['number_vacancies'] = Vacancy.objects.filter(specialty__slug=self.kwargs['slug']).count()
         return context
 
 
@@ -75,6 +69,7 @@ class CardCompanyView(ListView):
     template_name = 'job/vacancies.html'
     context_object_name = 'vacancies'
     extra_context = {'title': title}
+    paginate_by = 8
 
     def get_queryset(self):
         return Vacancy.objects.filter(company__pk=self.kwargs['pk'])
@@ -82,6 +77,7 @@ class CardCompanyView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['flag_company'] = Company.objects.get(pk=self.kwargs['pk'])
+        context['number_vacancies'] = Vacancy.objects.filter(company__pk=self.kwargs['pk']).count()
 
         return context
 
@@ -92,6 +88,7 @@ class CompaniesView(ListView):
     context_object_name = 'companies'
     extra_context = {
         'title': title,
+        'number_companies': Company.objects.count()
     }
     paginate_by = 8
 
@@ -115,7 +112,7 @@ class CreateApplicationView(View):
     def post(self, request, pk):
         form = ApplicationForm(request.POST)
         if form.is_valid():
-            new_appl = form.save()
+            new_application = form.save()
             return redirect('sent', pk)
         return render(request, 'job/vacancy.html', context={'form': form, })
 
@@ -128,19 +125,45 @@ class MySignupView(CreateView):
     extra_context = {'title': title, }
 
 
+class MyLogin(View):
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('main')
+        form = UserAutForm()
+        return render(request, 'login.html', {
+            'form': form,
+            'title': title,
+        }
+                      )
+
+    def post(self, request):
+        form = UserAutForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('main')
+        return render(request, 'login.html', context={'form': form, })
+
+
+
 # ???!!! через класс красиво не получилось, а в функции с трудом понимаю, что вообще происходит
 def my_login(request):
     if request.user.is_authenticated:
-        return redirect('/')
+        return redirect('main')
     if request.method == 'POST':
         form = UserAutForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('/')
+            return redirect('main')
     else:
         form = UserAutForm()
-    return render(request, 'login.html', {'form': form, 'title': title, })
+    return render(request, 'login.html', {
+        'form': form,
+        'title': title,
+    }
+                  )
 
 
 # ----------------------- добавление и редактирование компании ----------------------------

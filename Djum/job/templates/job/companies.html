@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
-
-<h2 class="text-center py-5">Всего {{ companies|length }} компаний</h2>
+{% block cards1 %}
+<h2 class="text-center py-5">Всего {{ number_companies }} компаний</h2>
   <section>
       <div class="row mt-5">
         <div class="col-12 col-lg-8 offset-lg-2 m-auto">
@@ -35,4 +35,8 @@
         </div>
       </div>
     </section>
+{% endblock %}
+
+{% block paginator %}
+{% include 'incl/_block_paginator.html' %}
 {% endblock %}
