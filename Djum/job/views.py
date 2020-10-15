@@ -5,13 +5,8 @@ from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
-from .models import Specialty, Company, Vacancy, Application, UserResume
-# from .data import skillist
-from random import shuffle
+from .models import Specialty, Company, Vacancy, UserResume
 from .forms import ApplicationForm, UserRegForm, UserAutForm, CompanyForm, VacancyForm, ResumeForm
-
-# title = 'Джуманджи'
-# shuffle(skillist)
 
 
 class MainView(ListView):
@@ -70,7 +65,6 @@ class CardCompanyView(ListView):
         context = super().get_context_data(**kwargs)
         context['flag_company'] = Company.objects.get(pk=self.kwargs['pk'])
         context['number_vacancies'] = Vacancy.objects.filter(company__pk=self.kwargs['pk']).count()
-
         return context
 
 
@@ -89,7 +83,6 @@ class CreateApplicationView(View):
         form = ApplicationForm()
         form.fields['vacancy'].initial = Vacancy.objects.get(pk=pk)
         form.fields['user'].initial = User.objects.get(pk=request.user.pk)
-
         return render(request, 'job/vacancy.html', context={
             'form': form,
             'vacancy': Vacancy.objects.get(pk=pk),
@@ -99,7 +92,7 @@ class CreateApplicationView(View):
     def post(self, request, pk):
         form = ApplicationForm(request.POST)
         if form.is_valid():
-            new_application = form.save()
+            form.save()
             return redirect('sent', pk)
         return render(request, 'job/vacancy.html', context={'form': form, })
 
@@ -172,7 +165,6 @@ class UserProfileView(DetailView):
 class DemoCompView(View):
     """ окно при нажатии на "компания" в выпадающем меню зарег пользователя,
     у которого нет компании (ссылка на допввление компании) """
-
     def get(self, request, *args, **kwargs):
         return render(request, 'job/my_demo_company.html')
 
@@ -187,14 +179,14 @@ class AddVacancyView(View):
         # делает этот пункт выбранным (без queryset остается возможность выбора из всего списка)
         form.fields['company'].initial = Company.objects.get(owner__pk=request.user.pk)
         # form = UpdVacForm(initial={'company': Company.objects.get(owner__pk=request.user.pk)})
-        return render(request, 'job/vacancy-add.html', context={'form': form,})
+        return render(request, 'job/vacancy-add.html', context={'form': form, })
 
     def post(self, request):
         form = VacancyForm(request.POST)
         if form.is_valid():
             new_vacancy = form.save()
             return redirect(new_vacancy)
-        return render(request, 'job/vacancy-add.html', context={'form': form,})
+        return render(request, 'job/vacancy-add.html', context={'form': form, })
 
 
 class UpdateVacancyView(UpdateView):
@@ -232,13 +224,12 @@ class AddUserResumeView(View):
     def get(self, request):
         form = ResumeForm()
         form.fields['user'].initial = request.user
-
         return render(request, 'job/resume-edit.html', context={'form': form, })
 
     def post(self, request):
         form = ResumeForm(request.POST)
         if form.is_valid():
-            new_resume = form.save()
+            form.save()
             return redirect('profile', request.user.pk)
         return render(request, 'job/resume-edit.html', context={'form': form, })
 
@@ -253,7 +244,7 @@ class UpdUserResumeView(View):
         resume = UserResume.objects.get(pk=pk)
         form = ResumeForm(request.POST, instance=resume)
         if form.is_valid():
-            resume = form.save()
+            form.save()
             return redirect('profile', request.user.pk)
         return render(request, 'job/resume-edit.html', context={'form': form, })
 

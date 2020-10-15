@@ -4,7 +4,6 @@ from django.contrib import admin
 from .models import Specialty, Company, Vacancy, Application, UserResume
 
 
-
 class VacancyAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'level', 'specialty', 'company', 'salary_min', 'salary_max', 'published_at']
     list_display_links = ['id', 'title']
@@ -37,9 +36,6 @@ class UserResumeAdmin(admin.ModelAdmin):
                     'level', 'education', 'user']
     list_display_links = ['user']
 
-
-# fields = ['first_name', 'last_name', 'readiness', 'salary', 'specialty',
-#           'level', 'education', 'experience', 'portfolio', 'user']
 
 admin.site.register(Specialty, SpecialtyAdmin)
 admin.site.register(Company, CompanyAdmin)

@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
@@ -68,7 +67,8 @@ class Vacancy(models.Model):
         verbose_name_plural = "Вакансии"
         ordering = ['-published_at']
 
-##                                                  --- week 4 ---
+
+#                                                  --- week 4 ---
 
 class Application(models.Model):
     written_username = models.CharField(max_length=32, verbose_name="Вас зовут")
@@ -125,7 +125,7 @@ class UserResume(models.Model):
     education = models.CharField(
         max_length=32,
         choices=EducationChoices, verbose_name="Образование")
-    experience = models.TextField( verbose_name="Опыт")
+    experience = models.TextField(verbose_name="Опыт")
     portfolio = models.CharField(max_length=32)
 
     def get_absolute_url(self):
@@ -137,6 +137,7 @@ class UserResume(models.Model):
     class Meta:
         verbose_name = "Резюме"
         verbose_name_plural = "Резюме"
+
 
 def random_database():
     # число юзеров, компаний, специальностей, вакансий = ....
@@ -172,7 +173,6 @@ def random_database():
                 skills=skill_maker(6), level=choice(level), description=job['desc'],
                 salary_min=job['salary_from'], salary_max=job['salary_to'],
             )
-
 
 # раскомментировать при создании базы данных:
 # random_database()

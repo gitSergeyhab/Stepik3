@@ -1,5 +1,3 @@
-
-
 """ Вакансии """
 jobs = [
     {"title": "Разработчик на Python", "cat": "backend", "company": "staffingsmarter", "salary_from": "100000",
@@ -117,14 +115,8 @@ level = 'Intern', 'Junior', 'Middle', 'Senior', 'Lead',
 
 """ Статусы в формате Enum """
 
-#
-#
-
-
-
 skillist = ['Python', 'Django', 'Flask', 'PHP', 'JS', 'Node', 'Vue', 'React', 'Git', 'SQL', 'CSS', 'HTML',
             'Ruby', 'Rails', 'Laravel', 'Spring', 'Angular', 'Ember', 'правапессанее', 'и чтоб человек хороший',
             'C++', 'C#', 'C', 'Java', 'Kotlin', 'Pandas', 'Numpy', 'MySQL', 'Symfony', 'CodeIgniter', 'Yii 2',
             'Phalcon', 'Swift', 'ML', 'Парсинг', 'BS4',
             'Grails', 'Vaadin', 'Spark', 'Bootstrap', 'Poco', 'Asio C++', 'WebSocket++', ]
-

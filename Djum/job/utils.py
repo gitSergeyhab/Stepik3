@@ -10,6 +10,3 @@ def skill_maker(x):
 
 def user_maker(x):
     return 'username' + str(x), 'email' + str(x) + '@mail.fake', 'pass' + str(x) + 'word'
-
-
-

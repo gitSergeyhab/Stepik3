@@ -23,7 +23,7 @@ class ApplicationForm(forms.ModelForm):
         model = Application
         fields = ['written_username', 'written_phone', 'written_cover_letter', 'vacancy', 'user']
 
-         # c {% crispy form "bootstrap4" %} в шаблоне это уже не нужно!!!
+        # c {% crispy form "bootstrap4" %} в шаблоне это уже не нужно!!!
         widgets = {
             'written_username': forms.TextInput(attrs={'class': 'form-control'}),
             'written_phone': forms.TextInput(attrs={'class': 'form-control'}),
@@ -74,11 +74,9 @@ class CompanyForm(forms.ModelForm):
         }
 
 
-
 # --------------- изменение вакансии --------------------
 
 class VacancyForm(forms.ModelForm):
-
     # company = forms.CharField(
     #     widget=forms.TextInput(attrs={'readonly': 'readonly', 'class': 'form-control'})
     # )
@@ -98,6 +96,7 @@ class VacancyForm(forms.ModelForm):
             'salary_min': forms.NumberInput(attrs={'class': 'form-control'}),
             'salary_max': forms.NumberInput(attrs={'class': 'form-control'})
         }
+
 
 class ResumeForm(forms.ModelForm):
     class Meta:
